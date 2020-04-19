@@ -16,7 +16,7 @@ __powerline() {
     readonly SYMBOL_GIT_PUSH='↑'
     readonly SYMBOL_GIT_PULL='↓'
 
-    PS_SYMBOL='λ' #'$'
+    PS_SYMBOL='$' #'$'
 
     __git_info() { 
         [[ $POWERLINE_GIT = 0 ]] && return # disabled

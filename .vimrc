@@ -96,3 +96,13 @@ autocmd filetype cpp nnoremap <F9> :w <bar> exec '!g++ -Wall -std=c++17 '.shelle
 "autocmd filetype rust nnoremap <F9> :w <bar> exec '!rustc '.shellescape('%').' && ./'.shellescape('%:r')<CR>
 autocmd filetype rust nnoremap <F9> :w <bar> exec '!cargo run'<CR>
 autocmd filetype rust nnoremap <F10> :w <bar> exec '!cargo check'<CR>
+
+" comment line, selection with Ctrl-N,Ctrl-N
+au BufEnter *.py nnoremap  <C-N><C-N>    mn:s/^\(\s*\)#*\(.*\)/\1#\2/ge<CR>:noh<CR>`n
+au BufEnter *.py inoremap  <C-N><C-N>    <C-O>mn<C-O>:s/^\(\s*\)#*\(.*\)/\1#\2/ge<CR><C-O>:noh<CR><C-O>`n
+au BufEnter *.py vnoremap  <C-N><C-N>    mn:s/^\(\s*\)#*\(.*\)/\1#\2/ge<CR>:noh<CR>gv`n
+
+" uncomment line, selection with Ctrl-N,N
+au BufEnter *.py nnoremap  <C-N>n     mn:s/^\(\s*\)#\([^ ]\)/\1\2/ge<CR>:s/^#$//ge<CR>:noh<CR>`n
+au BufEnter *.py inoremap  <C-N>n     <C-O>mn<C-O>:s/^\(\s*\)#\([^ ]\)/\1\2/ge<CR><C-O>:s/^#$//ge<CR><C-O>:noh<CR><C-O>`n
+au BufEnter *.py vnoremap  <C-N>n     mn:s/^\(\s*\)#\([^ ]\)/\1\2/ge<CR>gv:s/#\n/\r/ge<CR>:noh<CR>gv`n

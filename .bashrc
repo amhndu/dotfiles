@@ -103,5 +103,6 @@ function embed-sub()
 
 shopt -s globstar
 export EDITOR=vim
+export BROWSER=firefox
 
 source ~/.bash-powerline.sh
