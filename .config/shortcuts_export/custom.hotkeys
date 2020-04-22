@@ -100,14 +100,14 @@ Uuid={640faa56-39d5-475a-a23c-7ba49d7ac6cb}
 [Data_1_13]
 Comment=Comment
 Enabled=true
-Name=KDevelop
+Name=RR VSCode
 Type=SIMPLE_ACTION_DATA
 
 [Data_1_13Actions]
 ActionsCount=1
 
 [Data_1_13Actions0]
-CommandURL=kdevelop
+CommandURL=/home/amish/bin/jumpapp code
 Type=COMMAND_URL
 
 [Data_1_13Conditions]
