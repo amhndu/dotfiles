@@ -13,6 +13,7 @@ Plugin 'ervandew/supertab'
 Plugin 'udalov/kotlin-vim'
 Plugin 'racer-rust/vim-racer'
 Plugin 'lervag/vimtex'
+Plugin 'danilo-augusto/vim-afterglow'
 
 call vundle#end()
 filetype plugin indent on

@@ -83,6 +83,7 @@ alias vpn-connect='sudo openvpn --config other-home/Others/client1.ovpn'
 alias vtime="/bin/time -f \"Time:\nreal:\t%es\nuser:\t%Us\nsys:\t%Ss\nMemory\nMax:\t%MKb\nAvg:\t%tKb\""
 alias gdb="gdb -q"
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias dc='docker-compose'
 
 # Used for one off calculations with python eg. $ pc 4*log(2)
 function pc()

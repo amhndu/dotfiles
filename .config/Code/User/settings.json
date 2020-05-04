@@ -1,0 +1,39 @@
+{
+    "keyboard.dispatch": "keyCode",
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/node_modules/*/**": true,
+        "**/target/**": true,
+    },
+    "vim.hlsearch": true,
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "="
+            ],
+            "after": [],
+            "commands": [
+                {
+                    "command": "editor.action.reindentselectedlines",
+                    "args": []
+                }
+            ]
+        }
+    ],
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "="
+            ],
+            "after": [],
+            "commands": [
+                {
+                    "command": "editor.action.reindentselectedlines",
+                    "args": []
+                }
+            ]
+        }
+    ],
+    "vim.useSystemClipboard": true,
+}
