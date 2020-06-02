@@ -94,4 +94,41 @@ shopt -s globstar
 export EDITOR=vim
 export BROWSER=firefox
 
-source ~/.bash-powerline.sh
+# For Arch
+if [ -f "/usr/share/git/completion/git-prompt.sh" ]; then
+    source "/usr/share/git/completion/git-prompt.sh"
+fi
+
+__prompt_command() {
+    local EXIT="$?"
+    local RESET='\[\033[m\]'
+    local CYAN='\[\033[0;36m\]'
+    local LBLUE='\[\033[0;94m\]'
+    local PURPLE='\[\033[0;35m\]'
+    local GREEN='\[\033[0;32m\]'
+    local RED='\[\033[0;31m\]'
+    local YELLOW='\[\033[0;33m\]'
+
+    PS1=""
+
+    if [ "$VIRTUAL_ENV" != "" ]; then
+        PS1+="(`basename \"$VIRTUAL_ENV\"`) "
+    fi
+
+    export GIT_PS1_SHOWDIRTYSTATE=1
+    export GIT_PS1_SHOWCOLORHINTS=1
+    export GIT_PS1_SHOWUNTRACKEDFILES=1
+    local GIT_INFO="$(declare -F __git_ps1 &>/dev/null && __git_ps1 " (%s)")"
+    PS1+="[${LBLUE}\w${PURPLE}${GIT_INFO}${RESET}]\n"
+
+    PS1+="${YELLOW}\T${RESET} "
+
+    if [ $EXIT != 0 ]; then
+        PS1+="${RED}{${EXIT}}${RESET} "
+    fi
+
+    PS1+="${GREEN}\$${RESET} "
+
+}
+
+export PROMPT_COMMAND=__prompt_command
