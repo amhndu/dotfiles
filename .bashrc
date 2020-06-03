@@ -21,10 +21,6 @@ PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
-#shopt -s globstar
-
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
@@ -45,8 +41,6 @@ alias ll='ls -alhF'
 alias la='ls -A'
 alias l='ls -CF'
 
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # enable programmable completion features (you don't need to enable
@@ -60,50 +54,81 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# Custom prompt
-#export PS1='\[\033[38;5;196m\][\[\033[01;32m\](\D{%d %b %I:%M %p}) \[\033[01;34m\]\w\[\033[38;5;196m\]]\[\033[00m\]\n\$ \[$(tput sgr0)\]'
-
-#Library path extension
-#export LIBRARY_PATH=/usr/local/lib:$LIBRARY_PATH
-#export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-#export CPLUS_INCLUDE_PATH=/usr/local/include:$CPLUS_INCLUDE_PATH
 
 # Add ~/bin to path
 export PATH=~/bin:$PATH
 export TERM=xterm-256color
 
-# Aliases
+# Some custom aliases
 alias histless='history | less'
 alias yt-audio='youtube-dl -xf bestaudio'
 alias aria-ll='aria2c -x 15 -s 15'
 alias gxx='g++ -std=c++17 -Wall -Wextra'
 alias clipcp='xclip -sel c'
 alias clipecho='xclip -sel c -o'
-alias vpn-connect='sudo openvpn --config other-home/Others/client1.ovpn'
-alias vtime="/bin/time -f \"Time:\nreal:\t%es\nuser:\t%Us\nsys:\t%Ss\nMemory\nMax:\t%MKb\nAvg:\t%tKb\""
 alias gdb="gdb -q"
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias dc='docker-compose'
+alias ytdlll='youtube-dl -f best --external-downloader aria2c'
 
-# Used for one off calculations with python eg. $ pc 4*log(2)
-function pc()
-{
-    python -c "from math import *;print($1)";
+# some custom functions
+function venvact() {
+    DIR="$(pwd)"
+
+    WALK_UP_LIMIT=5
+    while [ "$DIR" != "/" ] && [ $WALK_UP_LIMIT -gt 0 ]; do
+        WALK_UP_LIMIT=$((WALK_UP_LIMIT-1))
+
+        ACTIVATE="$DIR/venv/bin/activate"
+        if [ -f "$ACTIVATE" ]; then
+            echo "Activating" "$ACTIVATE"
+            source "$ACTIVATE"
+            return 0
+        fi
+        DIR="$(dirname "$DIR")"
+    done
+    return 1
 }
-
-function embed-sub()
-{
-    ffmpeg -i "$1" -vf "subtitles='${1}'" -c:a copy "$1-embed.mkv"
-}
-
-# Welcome message if interactive (possibly breaks scp otherwise)
-# case $- in *i*)
-#    fortune definitions wisdom linux computers science;
-#    echo;
-# esac
 
 shopt -s globstar
 export EDITOR=vim
 export BROWSER=firefox
 
-source ~/.bash-powerline.sh
+# For Arch
+if [ -f "/usr/share/git/completion/git-prompt.sh" ]; then
+    source "/usr/share/git/completion/git-prompt.sh"
+fi
+
+__prompt_command() {
+    local EXIT="$?"
+    local RESET='\[\033[m\]'
+    local CYAN='\[\033[0;36m\]'
+    local LBLUE='\[\033[0;94m\]'
+    local PURPLE='\[\033[0;35m\]'
+    local GREEN='\[\033[0;32m\]'
+    local RED='\[\033[0;31m\]'
+    local YELLOW='\[\033[0;33m\]'
+
+    PS1=""
+
+    if [ "$VIRTUAL_ENV" != "" ]; then
+        PS1+="(`basename \"$VIRTUAL_ENV\"`) "
+    fi
+
+    export GIT_PS1_SHOWDIRTYSTATE=1
+    export GIT_PS1_SHOWCOLORHINTS=1
+    export GIT_PS1_SHOWUNTRACKEDFILES=1
+    local GIT_INFO="$(declare -F __git_ps1 &>/dev/null && __git_ps1 " (%s)")"
+    PS1+="[${LBLUE}\w${PURPLE}${GIT_INFO}${RESET}]\n"
+
+    PS1+="${YELLOW}\T${RESET} "
+
+    if [ $EXIT != 0 ]; then
+        PS1+="${RED}{${EXIT}}${RESET} "
+    fi
+
+    PS1+="${GREEN}\$${RESET} "
+
+}
+
+export PROMPT_COMMAND=__prompt_command
