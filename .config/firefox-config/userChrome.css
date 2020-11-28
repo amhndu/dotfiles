@@ -1,0 +1,49 @@
+:root {
+  --initial-width     : 70px;     /* initial width of the sidebar */
+  --sidebar-width     : 250px;    /* expanded width of the sidebar */
+  --toolbar-height    : 0;
+  --menubar-height    : -40px;
+  --toolmenubar-height: -40px;    /* sum of previous two */
+  --shadow-color      : #28282F;  /* shadow color. set to #00000000 for no shadow. same as folder color from hntp and tab-hover color from tst*/
+}
+
+/* show bookmarks toolbar on new tab only */
+#main-window #PersonalToolbar {
+  visibility : collapse !important;
+  z-index    : 1!important;
+  position   : relative!important;
+  margin-left: var(--initial-width);              /* shift toolbar to the right based on initial width */
+  margin-top : var(--toolbar-height) !important;
+}
+
+#main-window[title^="Firefox Developer Edition"] #PersonalToolbar {
+  visibility: visible !important;
+  margin-top: -1px !important;
+}
+
+
+#main-window[title^="Firefox Developer Edition"] #sidebar-box {
+  margin-top: var(--toolmenubar-height) !important;
+}
+
+
+
+/* Hide the title bar */
+#titlebar{ visibility: collapse; display: none }
+
+/* hide normal horizontal tab bar */
+#TabsToolbar { visibility: collapse; display: none }
+
+#sidebar { border-right: none !important; }
+
+toolbar#nav-bar {
+  padding-top   : 12px;
+  padding-bottom: 7px;
+  margin-left   : var(--initial-width);
+  padding-left  : 7px;
+  border        : none !important;
+}
+
+toolbar{
+  border: none !important;
+}
