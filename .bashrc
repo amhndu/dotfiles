@@ -13,6 +13,8 @@ shopt -s histappend
 # Set unlimited history
 HISTSIZE=
 HISTFILESIZE=
+# rotate bash history in monthly chunks
+~/bin/history-backup.sh
 
 # Save command history after every command
 PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
@@ -140,5 +142,9 @@ function func_vpn {
         [[ "$1" != "down" ]] && sudo wg-quick up $1 || echo "Took vpn down."
 }
 alias vpn="func_vpn"
-complete -W "`ls /etc/wireguard | sed -E 's/(.*)\..*/\1/' | tr "\n" " "`" vpn
+
+if [[ -x "/etc/wireguard" ]]; then
+    # arch/personal doesn't have permission to read, so check before accessing it
+    complete -W "`ls /etc/wireguard | sed -E 's/(.*)\..*/\1/' | tr "\n" " "`" vpn
+fi
 
