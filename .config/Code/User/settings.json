@@ -36,4 +36,26 @@
         }
     ],
     "vim.useSystemClipboard": true,
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "editor.insertSpaces": false,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "window.zoomLevel": -1,
+    // "rust-analyzer.inlayHints.typeHints": false,
+    "extensions.ignoreRecommendations": true,
+    "python.languageServer": "Pylance",
+    "python.analysis.extraPaths": [
+        "/home/amish/src/alerts/pysrc"
+    ],
+    "python.analysis.typeCheckingMode": "basic",
+    "vs-kubernetes": {
+        "vs-kubernetes.helm-path.linux": "/home/amish/.vs-kubernetes/tools/helm/linux-amd64/helm"
+    },
+    "jupyter.askForKernelRestart": false,
+    "workbench.editorAssociations": [
+        {
+            "viewType": "jupyter.notebook.ipynb",
+            "filenamePattern": "*.ipynb"
+        }
+    ],
 }

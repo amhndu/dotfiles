@@ -26,14 +26,16 @@
 "jumpapp discord"
     Mod2+Mod4 + d
 
-"leafpad"
-    Control+Mod2+Mod4 + n
-
 "transmission-qt"
     Mod2+Mod4 + r
 
 "xdotool key --clearmodifiers Ctrl+Page_Up"
-    Control+Shift+Mod2 + j + Release
-"xdotool key --clearmodifiers Ctrl+Page_Up"
     Control+Shift+Mod2 + k + Release
+"xdotool key --clearmodifiers Ctrl+Page_Down"
+    Control+Shift+Mod2 + j + Release
+
+"xdotool key --clearmodifiers Shift+Page_Up"
+    Control+Shift+Mod2 + u + Release
+"xdotool key --clearmodifiers Shift+Page_Down"
+    Control+Shift+Mod2 + d + Release
 

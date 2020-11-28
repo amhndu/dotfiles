@@ -70,6 +70,8 @@ alias gdb="gdb -q"
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias dc='docker-compose'
 alias ytdlll='youtube-dl -f best --external-downloader aria2c'
+alias vtime='/usr/bin/time -v'
+alias cola='cola &'
 
 # some custom functions
 function venvact() {
@@ -132,3 +134,11 @@ __prompt_command() {
 }
 
 export PROMPT_COMMAND="__prompt_command; $PROMPT_COMMAND"
+function func_vpn {
+        CURRENT_WG=`ip addr | grep POINTOPOINT | sed -E  's/^.+?: (.+?):.*$/\1/'`
+        [[ -z "$CURRENT_WG" ]] && echo "No vpn active." || sudo wg-quick down $CURRENT_WG
+        [[ "$1" != "down" ]] && sudo wg-quick up $1 || echo "Took vpn down."
+}
+alias vpn="func_vpn"
+complete -W "`ls /etc/wireguard | sed -E 's/(.*)\..*/\1/' | tr "\n" " "`" vpn
+
