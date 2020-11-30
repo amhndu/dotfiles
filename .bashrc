@@ -148,3 +148,4 @@ if [[ -x "/etc/wireguard" ]]; then
     complete -W "`ls /etc/wireguard | sed -E 's/(.*)\..*/\1/' | tr "\n" " "`" vpn
 fi
 
+source "$HOME/.cargo/env"
