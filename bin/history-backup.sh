@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # This script creates monthly backups of the bash history file. Make sure you have
 # HISTSIZE set to large number (more than number of commands you can type in every
 # month). It keeps last 200 commands when it "rotates" history file every month.
@@ -24,8 +24,8 @@ if [ -s "$BASH_HIST" -a "$BASH_HIST" -nt "$BACKUP" ]; then
     cp $BASH_HIST $BACKUP
   else
     # create new backup, leave last few commands and reinitialize
-    cp $BASH_HIST $BACKUP
-    tail -n$KEEP $BACKUP > $BASH_HIST
+    cp $BASH_HIST $BACKUP && tail -n$KEEP $BACKUP > $BASH_HIST
+    echo 'Bash history truncated'
     history -r
   fi
 fi
