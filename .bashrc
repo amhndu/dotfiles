@@ -59,10 +59,14 @@ fi
 
 # Add ~/bin to path
 export PATH=~/bin:$PATH
+if [[ $HOSTNAME == *ThinkPad* ]]; then
+    # if work-thinkpad
+    export PATH=/home/amish/.local/bin:$PATH
+fi
+
 export TERM=xterm-256color
 
 # Some custom aliases
-alias histless='history | less'
 alias yt-audio='youtube-dl -xf bestaudio'
 alias aria-ll='aria2c -x 15 -s 15'
 alias gxx='g++ -std=c++17 -Wall -Wextra'
@@ -74,6 +78,10 @@ alias dc='docker-compose'
 alias ytdlll='youtube-dl -f best --external-downloader aria2c'
 alias vtime='/usr/bin/time -v'
 alias cola='cola &'
+
+function grephistory() {
+    grep -a "$1" ~/.bash_archive/*
+}
 
 # some custom functions
 function venvact() {
@@ -87,6 +95,13 @@ function venvact() {
         if [ -f "$ACTIVATE" ]; then
             echo "Activating" "$ACTIVATE"
             source "$ACTIVATE"
+            return 0
+        fi
+
+        ALT_ACTIVATE="$DIR/.venv/bin/activate"
+        if [ -f "$ALT_ACTIVATE" ]; then
+            echo "Activating" "$ALT_ACTIVATE"
+            source "$ALT_ACTIVATE"
             return 0
         fi
         DIR="$(dirname "$DIR")"
@@ -143,9 +158,19 @@ function func_vpn {
 }
 alias vpn="func_vpn"
 
-if [[ -x "/etc/wireguard" ]]; then
+if [[ -r "/etc/wireguard" ]]; then
     # arch/personal doesn't have permission to read, so check before accessing it
     complete -W "`ls /etc/wireguard | sed -E 's/(.*)\..*/\1/' | tr "\n" " "`" vpn
 fi
 
-source "$HOME/.cargo/env"
+
+# load nvm
+if [[ $HOSTNAME == *ThinkPad* ]]; then
+    # if work-thinkpad
+    export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+    export DOCKER_BUILDKIT=1
+
+    source ~/jifsecret.sh
+fi
