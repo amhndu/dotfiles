@@ -17,7 +17,7 @@ HISTFILESIZE=
 ~/bin/history-backup.sh
 
 # Save command history after every command
-PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+PROMPT_COMMAND="history -a"
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -62,7 +62,6 @@ export PATH=~/bin:$PATH
 export TERM=xterm-256color
 
 # Some custom aliases
-alias histless='history | less'
 alias yt-audio='youtube-dl -xf bestaudio'
 alias aria-ll='aria2c -x 15 -s 15'
 alias gxx='g++ -std=c++17 -Wall -Wextra'
@@ -71,7 +70,8 @@ alias clipecho='xclip -sel c -o'
 alias gdb="gdb -q"
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias dc='docker-compose'
-alias ytdlll='youtube-dl -f best --external-downloader aria2c'
+alias ytdlll='youtube-dl -f bestvideo+bestaudio --external-downloader aria2c'
+alias vtdlll='youtube-dl -f best --external-downloader aria2c'
 alias vtime='/usr/bin/time -v'
 alias cola='cola &'
 
@@ -92,6 +92,10 @@ function venvact() {
         DIR="$(dirname "$DIR")"
     done
     return 1
+}
+
+function grephist() {
+    grep "$1" ~/.bash_archive/*
 }
 
 shopt -s globstar
