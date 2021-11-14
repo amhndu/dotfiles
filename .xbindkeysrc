@@ -6,8 +6,7 @@
 #    Control+Mod2+Mod4 + n
 
 
-#"jumpapp -i pycharm charm"
-"jumpapp -i Studio code"
+"jumpapp -i 'kdevelop|code' code"
     Mod2+Mod4 + k
 
 "jumpapp konsole"

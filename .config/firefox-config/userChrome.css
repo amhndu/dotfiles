@@ -47,3 +47,9 @@ toolbar#nav-bar {
 toolbar{
   border: none !important;
 }
+
+@-moz-document url("about:newtab") {  
+  body {
+      background-color: #ff0000 !important;
+  }
+}
