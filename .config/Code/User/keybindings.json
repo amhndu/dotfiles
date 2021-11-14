@@ -12,5 +12,9 @@
 	{
 		"key": "ctrl+p",
 		"command": "-workbench.action.quickOpen"
+	},
+	{
+		"key": "ctrl+b",
+		"command": "workbench.action.toggleSidebarVisibility"
 	}
 ]
