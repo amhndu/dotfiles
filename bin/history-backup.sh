@@ -11,7 +11,7 @@
 # grep xyz -h --color ~/.bash_history.*
 #
 
-KEEP=1000
+KEEP=5000
 BASH_HIST=~/.bash_history
 
 mkdir -p ~/.bash_archive
