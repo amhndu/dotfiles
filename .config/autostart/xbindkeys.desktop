@@ -1,6 +1,18 @@
 [Desktop Entry]
+Comment[en_IN]=
+Comment=
+Exec=sleep 5 && xbindkeys
+GenericName[en_IN]=
+GenericName=
+MimeType=
+Name[en_IN]=xbindkeys
 Name=xbindkeys
+Path=
+StartupNotify=true
 Terminal=false
+TerminalOptions=
 Type=Application
-Exec=xbindkeys
-
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=
