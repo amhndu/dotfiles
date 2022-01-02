@@ -79,6 +79,7 @@ alias ytdlll='youtube-dl -f bestvideo+bestaudio --external-downloader aria2c'
 alias vtdlll='youtube-dl -f best --external-downloader aria2c'
 alias vtime='/usr/bin/time -v'
 alias cola='cola &'
+alias vff='cd ~/bin/firefox/ && MOZ_WEBRENDER=1 ./firefox &'
 
 function grephistory() {
     grep -a "$1" ~/.bash_archive/*
@@ -143,7 +144,7 @@ __prompt_command() {
     export GIT_PS1_SHOWCOLORHINTS=1
     export GIT_PS1_SHOWUNTRACKEDFILES=1
     local GIT_INFO="$(declare -F __git_ps1 &>/dev/null && __git_ps1 " (%s)")"
-    PS1+="[${LBLUE}\w${PURPLE}${GIT_INFO}${RESET}]\n"
+    PS1+="[${LBLUE}\w${RESET}@${CYAN}\h${PURPLE}${GIT_INFO}${RESET}]\n"
 
     PS1+="${YELLOW}\T${RESET} "
 
