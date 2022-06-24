@@ -78,8 +78,8 @@ alias dc='docker-compose'
 alias ytdlll='youtube-dl -f bestvideo+bestaudio --external-downloader aria2c'
 alias vtdlll='youtube-dl -f best --external-downloader aria2c'
 alias vtime='/usr/bin/time -v'
-alias cola='cola &'
-alias vff='cd ~/bin/firefox/ && MOZ_WEBRENDER=1 ./firefox &'
+alias s='sensors'
+alias xb='killall xbindkeys && xbindkeys'
 
 function grephistory() {
     grep -a "$1" ~/.bash_archive/*
@@ -180,3 +180,5 @@ if [[ $HOSTNAME == *ThinkPad* ]]; then
 
     source ~/jifsecret.sh
 fi
+
+set -o vi

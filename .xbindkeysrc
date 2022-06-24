@@ -1,7 +1,7 @@
 "jumpapp firefox"
     Mod2+Mod4 + j
 "firefox"
-    Control+Mod2+Mod4 + j
+    Control+Mod1+Mod4 + j
 #"firefox --private-window"
 #    Control+Mod2+Mod4 + n
 
@@ -20,11 +20,11 @@
 "jumpapp dolphin"
     Control+Mod2+Mod4 + e
 
-"jumpapp spotify"
+"jumpapp -i 'mpv|spotify' spotify"
     Mod2+Mod4 + m
 
-#"jumpapp discord"
-#    Mod2+Mod4 + d
+"jumpapp discord"
+    Mod2+Mod4 + d
 #
 "transmission-qt"
     Mod2+Mod4 + r

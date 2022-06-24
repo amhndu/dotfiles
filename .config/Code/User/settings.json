@@ -36,11 +36,10 @@
         }
     ],
     "vim.useSystemClipboard": true,
+    "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
     "files.insertFinalNewline": true,
     "files.trimTrailingWhitespace": true,
-    "editor.insertSpaces": false,
     "diffEditor.ignoreTrimWhitespace": false,
-    "window.zoomLevel": -1,
     // "rust-analyzer.inlayHints.typeHints": false,
     "extensions.ignoreRecommendations": true,
     "python.languageServer": "Pylance",
@@ -52,10 +51,10 @@
         "vs-kubernetes.helm-path.linux": "/home/amish/.vs-kubernetes/tools/helm/linux-amd64/helm"
     },
     "jupyter.askForKernelRestart": false,
-    "workbench.editorAssociations": [
-        {
-            "viewType": "jupyter.notebook.ipynb",
-            "filenamePattern": "*.ipynb"
-        }
-    ],
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter.notebook.ipynb"
+    },
+    "security.workspace.trust.untrustedFiles": "open",
+    "workbench.colorTheme": "Visual Studio Dark - C++",
+    "cmake.configureOnOpen": true,
 }
