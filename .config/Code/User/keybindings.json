@@ -16,5 +16,15 @@
 	{
 		"key": "ctrl+b",
 		"command": "workbench.action.toggleSidebarVisibility"
+	},
+	{
+		"key": "meta+enter",
+		"command": "editor.action.showHover",
+		"when": "editorTextFocus"
+	},
+	{
+		"key": "ctrl+k ctrl+i",
+		"command": "-editor.action.showHover",
+		"when": "editorTextFocus"
 	}
 ]

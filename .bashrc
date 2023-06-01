@@ -8,6 +8,7 @@ esac
 HISTCONTROL=ignoreboth
 
 # append to the history file, don't overwrite it
+# macos disable
 shopt -s histappend
 
 # Set unlimited history
@@ -42,6 +43,7 @@ fi
 alias ll='ls -alhF'
 alias la='ls -A'
 alias l='ls -CF'
+alias xb='killall xbindkeys && xbindkeys'
 
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
@@ -75,11 +77,7 @@ alias clipecho='xclip -sel c -o'
 alias gdb="gdb -q"
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias dc='docker-compose'
-alias ytdlll='youtube-dl -f bestvideo+bestaudio --external-downloader aria2c'
-alias vtdlll='youtube-dl -f best --external-downloader aria2c'
 alias vtime='/usr/bin/time -v'
-alias s='sensors'
-alias xb='killall xbindkeys && xbindkeys'
 
 function grephistory() {
     grep -a "$1" ~/.bash_archive/*
@@ -117,7 +115,6 @@ function grephist() {
 
 shopt -s globstar
 export EDITOR=vim
-export BROWSER=firefox
 
 # For Arch
 if [ -f "/usr/share/git/completion/git-prompt.sh" ]; then
@@ -157,28 +154,3 @@ __prompt_command() {
 }
 
 export PROMPT_COMMAND="__prompt_command; $PROMPT_COMMAND"
-function func_vpn {
-        CURRENT_WG=`ip addr | grep POINTOPOINT | sed -E  's/^.+?: (.+?):.*$/\1/'`
-        [[ -z "$CURRENT_WG" ]] && echo "No vpn active." || sudo wg-quick down $CURRENT_WG
-        [[ "$1" != "down" ]] && sudo wg-quick up $1 || echo "Took vpn down."
-}
-alias vpn="func_vpn"
-
-if [[ -r "/etc/wireguard" ]]; then
-    # arch/personal doesn't have permission to read, so check before accessing it
-    complete -W "`ls /etc/wireguard | sed -E 's/(.*)\..*/\1/' | tr "\n" " "`" vpn
-fi
-
-
-# load nvm
-if [[ $HOSTNAME == *ThinkPad* ]]; then
-    # if work-thinkpad
-    export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-
-    export DOCKER_BUILDKIT=1
-
-    source ~/jifsecret.sh
-fi
-
-set -o vi

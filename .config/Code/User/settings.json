@@ -15,7 +15,7 @@
             "after": [],
             "commands": [
                 {
-                    "command": "editor.action.reindentselectedlines",
+                    "command": "editor.action.reindentlines",
                     "args": []
                 }
             ]
@@ -29,7 +29,7 @@
             "after": [],
             "commands": [
                 {
-                    "command": "editor.action.reindentselectedlines",
+                    "command": "editor.action.reindentlines",
                     "args": []
                 }
             ]
@@ -52,9 +52,19 @@
     },
     "jupyter.askForKernelRestart": false,
     "workbench.editorAssociations": {
-        "*.ipynb": "jupyter.notebook.ipynb"
+        "*.ipynb": "jupyter-notebook"
     },
     "security.workspace.trust.untrustedFiles": "open",
-    "workbench.colorTheme": "Visual Studio Dark - C++",
+    "workbench.colorTheme": "Default Dark+",
     "cmake.configureOnOpen": true,
+    "[python]": {
+        "editor.formatOnType": true
+    },
+    "[rust]": {
+        "editor.semanticHighlighting.enabled": false,
+        "editor.defaultFormatter": "rust-lang.rust-analyzer",
+        "editor.formatOnSave": true
+    },
+    "window.zoomLevel": 1,
+    "explorer.confirmDragAndDrop": false,
 }
