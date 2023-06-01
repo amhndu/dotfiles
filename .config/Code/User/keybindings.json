@@ -5,6 +5,11 @@
 		"command": "-extension.vim_ctrl+k",
 		"when": "editorTextFocus && vim.active && vim.use<C-k> && !inDebugRepl"
 	},
+    {
+        "key": "ctrl+k",
+        "command": "-deleteAllRight",
+        "when": "textInputFocus && !editorReadonly"
+    },
 	{
 		"key": "ctrl+k",
 		"command": "workbench.action.quickOpen"
@@ -13,15 +18,25 @@
 		"key": "ctrl+p",
 		"command": "-workbench.action.quickOpen"
 	},
-	{
-		"key": "ctrl+b",
-		"command": "workbench.action.toggleSidebarVisibility"
-	},
+    {
+        "key": "cmd+p",
+        "command": "-workbench.action.quickOpen"
+    },
 	{
 		"key": "meta+enter",
 		"command": "editor.action.showHover",
 		"when": "editorTextFocus"
 	},
+    {
+        "key": "ctrl+shift+e",
+        "command": "editor.action.marker.nextInFiles",
+        "when": "editorFocus"
+    },
+    {
+        "key": "f8",
+        "command": "-editor.action.marker.nextInFiles",
+        "when": "editorFocus"
+    }
 	{
 		"key": "ctrl+k ctrl+i",
 		"command": "-editor.action.showHover",

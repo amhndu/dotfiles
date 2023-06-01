@@ -75,7 +75,7 @@ set background=dark
 set incsearch                 " incremental search
 set hlsearch                  " highlight last searched pattern
 set background=dark
-set clipboard=unnamedplus
+set clipboard^=unnamed,unnamedplus " https://stackoverflow.com/a/30691754
 "set path+='**'
 
 colorscheme afterglow

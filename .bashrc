@@ -9,20 +9,16 @@ esac
 HISTCONTROL=ignoreboth
 # append to the history file, don't overwrite it
 shopt -s histappend
-if [[ $(uname) != "Darwin" ]]; then
-    # macos disable
-fi
 
 # Set unlimited history
+
 HISTSIZE=
 HISTFILESIZE=
+
 # rotate bash history in monthly chunks
-~/bin/history-backup.sh
+[ -x ~/bin/history-backup.sh ] && ~/bin/history-backup.sh
 # Save command history after every command
 PROMPT_COMMAND="history -a"
-function grephistory() {
-    grep -a "$1" ~/.bash_archive/*
-}
 
 
 # Check the window size after each command and, if necessary,
@@ -100,10 +96,10 @@ function venvact() {
     done
     return 1
 }
-
-function grephist() {
-    grep "$1" ~/.bash_archive/*
+function grephistory() {
+    grep -a "$1" ~/.bashrc ~/.bash_archive/*
 }
+
 
 # Add ~/bin to path
 export PATH=~/bin:$PATH
