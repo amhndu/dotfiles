@@ -6,6 +6,10 @@
         "**/node_modules/*/**": true,
         "**/target/**": true,
     },
+    "redhat.telemetry.enabled": false,
+    "yaml.schemas": {
+        "https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json": "**/*.yaml",
+    },
     "vim.hlsearch": true,
     "vim.normalModeKeyBindingsNonRecursive": [
         {
@@ -55,7 +59,8 @@
         "*.ipynb": "jupyter-notebook"
     },
     "security.workspace.trust.untrustedFiles": "open",
-    "workbench.colorTheme": "Default Dark+",
+    "workbench.colorTheme": "One Dark Pro Darker",
+    "workbench.iconTheme": "Monokai Pro (Filter Spectrum) Icons",
     "cmake.configureOnOpen": true,
     "[python]": {
         "editor.formatOnType": true
@@ -64,6 +69,14 @@
         "editor.semanticHighlighting.enabled": false,
         "editor.defaultFormatter": "rust-lang.rust-analyzer",
         "editor.formatOnSave": true
+    },
+    "[go]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnPaste": true
+    },
+    "gopls": {
+        "ui.semanticTokens": true,
+        "ui.completion.matcher": "CaseInsensitive"
     },
     "window.zoomLevel": 1,
     "explorer.confirmDragAndDrop": false,

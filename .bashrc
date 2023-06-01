@@ -4,30 +4,39 @@ case $- in
       *) return;;
 esac
 
+## History management
 # don't put duplicate lines or lines starting with space in the history.
 HISTCONTROL=ignoreboth
-
 # append to the history file, don't overwrite it
-# macos disable
 shopt -s histappend
+if [[ $(uname) != "Darwin" ]]; then
+    # macos disable
+fi
 
 # Set unlimited history
 HISTSIZE=
 HISTFILESIZE=
 # rotate bash history in monthly chunks
 ~/bin/history-backup.sh
-
 # Save command history after every command
 PROMPT_COMMAND="history -a"
+function grephistory() {
+    grep -a "$1" ~/.bash_archive/*
+}
 
-# check the window size after each command and, if necessary,
+
+# Check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
+# Enable globstar
+shopt -s globstar
 
-# make less more friendly for non-text input files, see lesspipe(1)
+
+
+# Make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# enable color support of ls and also add handy aliases
+# Enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
@@ -36,20 +45,9 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-# colored GCC warnings and errors
-#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# some more ls aliases
-alias ll='ls -alhF'
-alias la='ls -A'
-alias l='ls -CF'
-alias xb='killall xbindkeys && xbindkeys'
-
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
+## Completion
+# enable programmable completion features .
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
     . /usr/share/bash-completion/bash_completion
@@ -57,31 +55,25 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+# brew bash completion
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
 
-# Add ~/bin to path
-export PATH=~/bin:$PATH
-if [[ $HOSTNAME == *ThinkPad* ]]; then
-    # if work-thinkpad
-    export PATH=/home/amish/.local/bin:$PATH
-fi
-
-export TERM=xterm-256color
-
-# Some custom aliases
-alias yt-audio='youtube-dl -xf bestaudio'
+## Aliases
+alias xb='killall xbindkeys && xbindkeys'
 alias aria-ll='aria2c -x 15 -s 15'
 alias gxx='g++ -std=c++17 -Wall -Wextra'
 alias clipcp='xclip -sel c'
 alias clipecho='xclip -sel c -o'
 alias gdb="gdb -q"
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias dc='docker-compose'
 alias vtime='/usr/bin/time -v'
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-function grephistory() {
-    grep -a "$1" ~/.bash_archive/*
-}
+# ls aliases
+alias ll='ls -alhF'
+alias la='ls -A'
+alias l='ls -CF'
 
 # some custom functions
 function venvact() {
@@ -113,10 +105,15 @@ function grephist() {
     grep "$1" ~/.bash_archive/*
 }
 
-shopt -s globstar
+# Add ~/bin to path
+export PATH=~/bin:$PATH
+export TERM=xterm-256color
 export EDITOR=vim
+# for mac / bsd coreutils
+export CLICOLOR=1
 
-# For Arch
+
+# Source git-prompt in Arch for prompt-command to work
 if [ -f "/usr/share/git/completion/git-prompt.sh" ]; then
     source "/usr/share/git/completion/git-prompt.sh"
 fi
