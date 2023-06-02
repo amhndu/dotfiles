@@ -107,6 +107,9 @@ export TERM=xterm-256color
 export EDITOR=vim
 # for mac / bsd coreutils
 export CLICOLOR=1
+# load system-specific env
+[ -x ~/.env.sh ] && source ~/.env.sh
+
 
 
 # Source git-prompt in Arch for prompt-command to work
