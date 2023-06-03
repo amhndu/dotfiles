@@ -117,6 +117,21 @@ if [ -f "/usr/share/git/completion/git-prompt.sh" ]; then
     source "/usr/share/git/completion/git-prompt.sh"
 fi
 
+__prompt_colored_host() {
+   local number
+   local seed=42
+   number=$(
+       # get "random" string that depends on hostname
+       md5sum <<<"$1 +$seed" |
+       # meh - take first byte and convert it to decimal
+       cut -c-2 | xargs -i printf "%d\n" "0x{}" |
+       # convert 0-255 range into 30-37 range
+       awk '{print int($0/255.0*(37-30)+30)}'
+  )
+  printf '\[\e[%d;1m\]%s\[\e[m\]' "$number" "$1"
+  echo
+}
+
 __prompt_command() {
     local EXIT="$?"
     local RESET='\[\033[m\]'
@@ -137,7 +152,7 @@ __prompt_command() {
     export GIT_PS1_SHOWCOLORHINTS=1
     export GIT_PS1_SHOWUNTRACKEDFILES=1
     local GIT_INFO="$(declare -F __git_ps1 &>/dev/null && __git_ps1 " (%s)")"
-    PS1+="[${LBLUE}\w${RESET}@${CYAN}\h${PURPLE}${GIT_INFO}${RESET}]\n"
+    PS1+="[${LBLUE}\w${RESET}@$(__prompt_colored_host $HOSTNAME)${PURPLE}${GIT_INFO}${RESET}]\n"
 
     PS1+="${YELLOW}\T${RESET} "
 
