@@ -78,6 +78,5 @@
         "ui.semanticTokens": true,
         "ui.completion.matcher": "CaseInsensitive"
     },
-    "window.zoomLevel": 1,
     "explorer.confirmDragAndDrop": false,
 }

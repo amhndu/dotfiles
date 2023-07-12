@@ -71,6 +71,8 @@ alias ll='ls -alhF'
 alias la='ls -A'
 alias l='ls -CF'
 
+alias mosh-naisho="mosh -p 12301 --no-ssh-pty naisho"
+
 # some custom functions
 function venvact() {
     DIR="$(pwd)"
@@ -152,7 +154,7 @@ __prompt_command() {
     export GIT_PS1_SHOWCOLORHINTS=1
     export GIT_PS1_SHOWUNTRACKEDFILES=1
     local GIT_INFO="$(declare -F __git_ps1 &>/dev/null && __git_ps1 " (%s)")"
-    PS1+="[${LBLUE}\w${RESET}@$(__prompt_colored_host $HOSTNAME)${PURPLE}${GIT_INFO}${RESET}]\n"
+    PS1+="[${LBLUE}\w${RESET}@$(__prompt_colored_host $HOSTNAME)${RESET}${GIT_INFO}${RESET}]\n"
 
     PS1+="${YELLOW}\T${RESET} "
 
