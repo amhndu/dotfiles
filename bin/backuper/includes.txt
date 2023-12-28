@@ -1,0 +1,5 @@
+/home/amish/docs/
+/home/amish/etc/
+/home/amish/media/
+/home/amish/projects/
+/home/amish/.bash_history/

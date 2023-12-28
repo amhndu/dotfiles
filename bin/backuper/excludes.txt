@@ -1,0 +1,13 @@
+Debug
+Release
+target/debug
+target/release
+build
+node_modules
+venv
+.venv
+*.jar
+site-packages
+__pycache__
+.cache
+TrainImages

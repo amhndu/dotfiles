@@ -1,0 +1,6 @@
+[Unit]
+Description=restic backup
+
+[Service]
+ExecStart=/home/amish/bin/backuper/restic-backup.sh
+
