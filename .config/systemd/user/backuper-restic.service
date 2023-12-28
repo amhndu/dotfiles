@@ -2,5 +2,5 @@
 Description=restic backup
 
 [Service]
-ExecStart=/home/amish/bin/backuper/restic-backup.sh
+ExecStart=/home/amish/bin/run-backup.sh
 

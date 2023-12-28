@@ -2,4 +2,4 @@
 /home/amish/etc/
 /home/amish/media/
 /home/amish/projects/
-/home/amish/.bash_history/
+/home/amish/.bash_archive/

@@ -4,6 +4,7 @@ Description=Run backup script
 [Timer]
 OnCalendar=daily
 Persistent=true
+RandomizedDelaySec=1h
  
 [Install]
 WantedBy=timers.target
