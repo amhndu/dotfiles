@@ -87,8 +87,11 @@ endif
 " Space -> Page Down
 map <Space> <PageDown>
 " S-Enter - insert a new line above and get back to normal mode
-nmap <S-Enter> O<Esc>
-" Enter - insert a new line below and get back to normal mode
+" Use ctrl-[hjkl] to select the active split!
+nmap <silent> <c-k> :wincmd k<CR>
+nmap <silent> <c-j> :wincmd j<CR>
+nmap <silent> <c-h> :wincmd h<CR>
+nmap <silent> <c-l> :wincmd l<CR>
 
 " Keybindings to compile-run or interpret
 autocmd filetype haskell nnoremap <F9> :w <bar> exec '!runhaskell '.shellescape('%')<CR>

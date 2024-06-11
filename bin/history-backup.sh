@@ -24,7 +24,7 @@ if [ -s "$BASH_HIST" -a "$BASH_HIST" -nt "$BACKUP" ]; then
     cp $BASH_HIST $BACKUP
   else
     # create new backup, leave last few commands and reinitialize
-    cp $BASH_HIST $BACKUP && tail -n$KEEP $BACKUP > $BASH_HIST
+    cp $BASH_HIST $BACKUP && tail -n $KEEP $BACKUP > $BASH_HIST
     echo 'Bash history truncated'
     history -r
   fi
