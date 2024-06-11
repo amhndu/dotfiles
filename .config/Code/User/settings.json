@@ -62,8 +62,14 @@
     "workbench.colorTheme": "One Dark Pro Darker",
     "workbench.iconTheme": "Monokai Pro (Filter Spectrum) Icons",
     "cmake.configureOnOpen": true,
+    "python.formatting.provider": "yapf",
+    "python.analysis.autoImportCompletions": true,
     "[python]": {
-        "editor.formatOnType": true
+        "editor.defaultFormatter": "ms-python.python",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        },
     },
     "[rust]": {
         "editor.semanticHighlighting.enabled": false,
@@ -79,4 +85,9 @@
         "ui.completion.matcher": "CaseInsensitive"
     },
     "explorer.confirmDragAndDrop": false,
+    "go.toolsManagement.autoUpdate": true,
+    "trunk.trunkGrayOutNonBlockingIssues": false,
+    "window.zoomLevel": 1,
+    "editor.multiCursorModifier": "ctrlCmd",
+    "github.copilot.editor.enableAutoCompletions": true,
 }

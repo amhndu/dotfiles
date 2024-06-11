@@ -1,6 +1,14 @@
 // Place your key bindings in this file to override the defaultsauto[]
 [
 	{
+        "key": "ctrl+h",
+        "command": "workbench.action.navigateLeft"
+    },
+    {
+        "key": "ctrl+l",
+        "command": "workbench.action.navigateRight"
+    },
+	{
 		"key": "ctrl+k",
 		"command": "-extension.vim_ctrl+k",
 		"when": "editorTextFocus && vim.active && vim.use<C-k> && !inDebugRepl"
@@ -14,13 +22,9 @@
 		"key": "ctrl+k",
 		"command": "workbench.action.quickOpen"
 	},
-	{
-		"key": "ctrl+p",
-		"command": "-workbench.action.quickOpen"
-	},
     {
         "key": "cmd+p",
-        "command": "-workbench.action.quickOpen"
+        "command": "workbench.action.quickOpen"
     },
 	{
 		"key": "meta+enter",
