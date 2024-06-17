@@ -1442,7 +1442,7 @@
                         ]
                     },
                     {
-                        "description": "Open IntelliJ",
+                        "description": "Open Kitty",
                         "manipulators": [
                             {
                                 "from": {
@@ -1458,7 +1458,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'IntelliJ IDEA.app'"
+                                        "shell_command": "open -a kitty.app --args --listen-on unix:/tmp/nvimkitty -e nvim"
                                     }
                                 ],
                                 "type": "basic"
@@ -1466,7 +1466,7 @@
                         ]
                     },
                     {
-                        "description": "Open iTerm",
+                        "description": "Open iTerm2",
                         "manipulators": [
                             {
                                 "from": {

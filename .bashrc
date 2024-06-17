@@ -106,7 +106,7 @@ function grephistory() {
 # Add ~/bin to path
 export PATH=~/bin:$PATH
 export TERM=xterm-256color
-export EDITOR=vim
+export EDITOR=nvim
 # for mac / bsd coreutils
 export CLICOLOR=1
 # load system-specific env
@@ -121,12 +121,12 @@ fi
 
 __prompt_colored_host() {
    local number
-   local seed=42
+   local seed=44
    number=$(
        # get "random" string that depends on hostname
-       md5sum <<<"$1 +$seed" |
+       md5sum <<<"$1+$seed" |
        # meh - take first byte and convert it to decimal
-       cut -c-2 | xargs -i printf "%d\n" "0x{}" |
+       cut -c-2 | xargs -I{} printf "%d\n" "0x{}" |
        # convert 0-255 range into 30-37 range
        awk '{print int($0/255.0*(37-30)+30)}'
   )
