@@ -17,9 +17,45 @@ return {
         window = {
           mappings = {
             ['\\'] = 'close_window',
+            ['l'] = 'open',
+            ['h'] = 'close_node',
+          },
+        },
+        follow_current_file = {
+          enabled = false,
+          leave_dirs_open = false,
+        },
+        filtered_items = {
+          hide_gitignored = false,
+          never_show = { -- remains hidden even if visible is toggled to true, this overrides always_show
+            '.DS_Store',
+            'thumbs.db',
+          },
+          always_show = { -- remains visible even if other settings would normally hide it
+            '.gitignored',
+          },
+        },
+        default_component_configs = {
+          indent = {
+            with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
+            expander_collapsed = '',
+            expander_expanded = '',
+            expander_highlight = 'NeoTreeExpander',
+          },
+          git_status = {
+            symbols = {
+              unstaged = '󰄱',
+              staged = '󰱒',
+            },
           },
         },
       },
     },
+    init = function()
+      vim.fn.sign_define('DiagnosticSignError', { text = ' ', texthl = 'DiagnosticSignError' })
+      vim.fn.sign_define('DiagnosticSignWarn', { text = ' ', texthl = 'DiagnosticSignWarn' })
+      vim.fn.sign_define('DiagnosticSignInfo', { text = ' ', texthl = 'DiagnosticSignInfo' })
+      vim.fn.sign_define('DiagnosticSignHint', { text = '󰌵', texthl = 'DiagnosticSignHint' })
+    end,
   },
 }
