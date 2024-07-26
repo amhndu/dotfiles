@@ -167,3 +167,4 @@ __prompt_command() {
 }
 
 export PROMPT_COMMAND="__prompt_command; $PROMPT_COMMAND"
+. "$HOME/.cargo/env"
