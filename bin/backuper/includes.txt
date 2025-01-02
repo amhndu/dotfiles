@@ -3,3 +3,4 @@
 /home/amish/media/
 /home/amish/projects/
 /home/amish/.bash_archive/
+/home/amish/rpg/

@@ -90,4 +90,5 @@
     "window.zoomLevel": 1,
     "editor.multiCursorModifier": "ctrlCmd",
     "github.copilot.editor.enableAutoCompletions": true,
+    "interactiveWindow.executeWithShiftEnter": true,
 }

@@ -3,4 +3,4 @@ Description=restic backup
 
 [Service]
 ExecStart=/home/amish/bin/run-backup.sh
-
+TimeoutStopSec=30

@@ -167,4 +167,7 @@ __prompt_command() {
 }
 
 export PROMPT_COMMAND="__prompt_command; $PROMPT_COMMAND"
-. "$HOME/.cargo/env"
+
+if [ -f "$HOME/.cargo/env" ]; then
+    . "$HOME/.cargo/env"
+fi
