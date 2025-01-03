@@ -66,6 +66,10 @@ alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias vtime='/usr/bin/time -v'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
+if ! which -s python && which -s python3; then
+    alias python=python3
+fi
+
 # ls aliases
 alias ll='ls -alhF'
 alias la='ls -A'
@@ -109,65 +113,79 @@ export TERM=xterm-256color
 export EDITOR=nvim
 # for mac / bsd coreutils
 export CLICOLOR=1
+
 # load system-specific env
 [ -x ~/.env.sh ] && source ~/.env.sh
 
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
+[ -f "$HOME/.nvm" ] && export NVM_DIR="$HOME/.nvm"
 
-# Source git-prompt in Arch for prompt-command to work
-if [ -f "/usr/share/git/completion/git-prompt.sh" ]; then
-    source "/usr/share/git/completion/git-prompt.sh"
+# if homebrew (macos)
+if [ -f "/opt/homebrew/bin/brew" ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+    [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
 fi
 
-__prompt_colored_host() {
-   local number
-   local seed=44
-   number=$(
-       # get "random" string that depends on hostname
-       md5sum <<<"$1+$seed" |
-       # meh - take first byte and convert it to decimal
-       cut -c-2 | xargs -I{} printf "%d\n" "0x{}" |
-       # convert 0-255 range into 30-37 range
-       awk '{print int($0/255.0*(37-30)+30)}'
-  )
-  printf '\[\e[%d;1m\]%s\[\e[m\]' "$number" "$1"
-  echo
-}
-
-__prompt_command() {
-    local EXIT="$?"
-    local RESET='\[\033[m\]'
-    local CYAN='\[\033[0;36m\]'
-    local LBLUE='\[\033[0;94m\]'
-    local PURPLE='\[\033[0;35m\]'
-    local GREEN='\[\033[0;32m\]'
-    local RED='\[\033[0;31m\]'
-    local YELLOW='\[\033[0;33m\]'
-
-    PS1=""
-
-    if [ "$VIRTUAL_ENV" != "" ]; then
-        PS1+="(`basename \"$VIRTUAL_ENV\"`) "
-    fi
-
-    export GIT_PS1_SHOWDIRTYSTATE=1
-    export GIT_PS1_SHOWCOLORHINTS=1
-    export GIT_PS1_SHOWUNTRACKEDFILES=1
-    local GIT_INFO="$(declare -F __git_ps1 &>/dev/null && __git_ps1 " (%s)")"
-    PS1+="[${LBLUE}\w${RESET}@$(__prompt_colored_host $HOSTNAME)${RESET}${GIT_INFO}${RESET}]\n"
-
-    PS1+="${YELLOW}\T${RESET} "
-
-    if [ $EXIT != 0 ]; then
-        PS1+="${RED}{${EXIT}}${RESET} "
-    fi
-
-    PS1+="${GREEN}\$${RESET} "
-
-}
-
-export PROMPT_COMMAND="__prompt_command; $PROMPT_COMMAND"
-
-if [ -f "$HOME/.cargo/env" ]; then
-    . "$HOME/.cargo/env"
+# if iterm2: add $PWD to title
+if [ $ITERM_SESSION_ID ]; then
+  export PROMPT_COMMAND='echo -ne "\033]0;${PWD##*/}\007"'
 fi
+
+
+. ~/bin/setup-z.sh
+
+# init starship if installed, otherwise build a custom prompt
+if which -s starship; then
+    eval "$(starship init bash)"
+else
+    __prompt_colored_host() {
+       local number
+       local seed=44
+       number=$(
+           # get "random" string that depends on hostname
+           md5sum <<<"$1+$seed" |
+           # meh - take first byte and convert it to decimal
+           cut -c-2 | xargs -I{} printf "%d\n" "0x{}" |
+           # convert 0-255 range into 30-37 range
+           awk '{print int($0/255.0*(37-30)+30)}'
+      )
+      printf '\[\e[%d;1m\]%s\[\e[m\]' "$number" "$1"
+      echo
+    }
+
+    __prompt_command() {
+        local EXIT="$?"
+        local RESET='\[\033[m\]'
+        local CYAN='\[\033[0;36m\]'
+        local LBLUE='\[\033[0;94m\]'
+        local PURPLE='\[\033[0;35m\]'
+        local GREEN='\[\033[0;32m\]'
+        local RED='\[\033[0;31m\]'
+        local YELLOW='\[\033[0;33m\]'
+
+        PS1=""
+
+        if [ "$VIRTUAL_ENV" != "" ]; then
+            PS1+="(`basename \"$VIRTUAL_ENV\"`) "
+        fi
+
+        export GIT_PS1_SHOWDIRTYSTATE=1
+        export GIT_PS1_SHOWCOLORHINTS=1
+        export GIT_PS1_SHOWUNTRACKEDFILES=1
+        local GIT_INFO="$(declare -F __git_ps1 &>/dev/null && __git_ps1 " (%s)")"
+        PS1+="[${LBLUE}\w${RESET}@$(__prompt_colored_host $HOSTNAME)${RESET}${GIT_INFO}${RESET}]\n"
+
+        PS1+="${YELLOW}\T${RESET} "
+
+        if [ $EXIT != 0 ]; then
+            PS1+="${RED}{${EXIT}}${RESET} "
+        fi
+
+        PS1+="${GREEN}\$${RESET} "
+
+    }
+
+    export PROMPT_COMMAND="__prompt_command; $PROMPT_COMMAND"
+fi
+
