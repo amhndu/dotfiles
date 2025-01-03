@@ -154,6 +154,16 @@ return {
       --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+      local python_root_files = {
+        '.pyroot', -- custom file to workaround helicon's weird structure
+        'pyproject.toml',
+        'setup.py',
+        'setup.cfg',
+        'requirements.txt',
+        'Pipfile',
+        '.git',
+      }
+      local util = require 'lspconfig.util'
       local servers = {
         -- clangd = {},
         gopls = {
@@ -165,32 +175,35 @@ return {
             useany = true,
           },
         },
-        pyright = {},
-        rust_analyzer = {
-          procMacro = {
-            enable = true,
-            ignored = {
-              ['async-trait'] = { 'async_trait' },
-              ['napi-derive'] = { 'napi' },
-              ['async-recursion'] = { 'async_recursion' },
-            },
-          },
-        },
-        bufls = {},
-        lua_ls = {
-          -- cmd = {...},
-          -- filetypes = { ...},
-          -- capabilities = {},
+        basedpyright = {
+          root_dir = util.root_pattern(unpack(python_root_files)),
           settings = {
-            Lua = {
-              completion = {
-                callSnippet = 'Replace',
+            basedpyright = {
+              analysis = {
+                typeCheckingMode = 'standard',
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode = 'openFilesOnly',
               },
-              -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-              -- diagnostics = { disable = { 'missing-fields' } },
             },
           },
         },
+        -- TODO: buf_ls not supported
+        -- buf_ls = {},
+        -- luals = {
+        --   -- cmd = {...},
+        --   -- filetypes = { ...},
+        --   -- capabilities = {},
+        --   settings = {
+        --     Lua = {
+        --       completion = {
+        --         callSnippet = 'Replace',
+        --       },
+        --       -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
+        --       -- diagnostics = { disable = { 'missing-fields' } },
+        --     },
+        --   },
+        -- },
       }
 
       -- Ensure the servers and tools above are installed
@@ -218,6 +231,7 @@ return {
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for tsserver)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+            --print(vim.inspect(server_name), vim.inspect(server))
             require('lspconfig')[server_name].setup(server)
           end,
         },
@@ -458,5 +472,12 @@ return {
         callback = M.debounce(100, M.lint),
       })
     end,
+  },
+
+  -- Rust
+  {
+    'mrcjkb/rustaceanvim',
+    version = '^5', -- Recommended
+    lazy = false, -- This plugin is already lazy
   },
 }

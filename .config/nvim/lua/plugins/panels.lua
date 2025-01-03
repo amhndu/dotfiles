@@ -32,7 +32,9 @@ return {
             'thumbs.db',
           },
           always_show = { -- remains visible even if other settings would normally hide it
-            '.gitignored',
+            '.gitignore',
+            '.vscode',
+            '.github',
           },
         },
         default_component_configs = {
