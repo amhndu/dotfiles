@@ -66,10 +66,6 @@ alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias vtime='/usr/bin/time -v'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-if ! which -s python && which -s python3; then
-    alias python=python3
-fi
-
 # ls aliases
 alias ll='ls -alhF'
 alias la='ls -A'
@@ -103,8 +99,16 @@ function venvact() {
     return 1
 }
 function grephistory() {
-    grep -a "$1" ~/.bashrc ~/.bash_archive/*
+    rg -a "$1" ~/.bashrc ~/.bash_archive/*
 }
+function command_exists() {
+    command -v "$1" 2>&1 >/dev/null
+}
+
+if ! command_exists python && command_exists python3; then
+    alias python=python3
+fi
+
 
 
 # Add ~/bin to path
@@ -136,7 +140,7 @@ fi
 . ~/bin/setup-z.sh
 
 # init starship if installed, otherwise build a custom prompt
-if which -s starship; then
+if command_exists starship; then
     eval "$(starship init bash)"
 else
     __prompt_colored_host() {
