@@ -41,7 +41,7 @@ for_window [class="Guitarix"] floating enable
 exec --no-startup-id feh --bg-fill /home/amish/ext_pictures/117056362_p0.jpg
 
 # Gaps
-gaps inner 5
+gaps inner 3
 gaps outer 0
 # Smart gaps (gaps used if only more than one container on the workspace)
 smart_gaps on
@@ -232,45 +232,21 @@ bindsym $mod+r mode "resize"
 ## Theme settings
 
 # Font
-font pango:Hack 8
+font pango:Noto Sans 10
 
-# Color palette used for the terminal ( ~/.Xresources file )
-# Colors are gathered based on the documentation:
-# https://i3wm.org/docs/userguide.html#xresources
-# Change the variable name at the place you want to match the color
-# of your terminal like this:
-# [example]
-# If you want your bar to have the same background color as your
-# terminal background change the line 362 from:
-# background #14191D
-# to:
-# background $term_background
-# Same logic applied to everything else.
-set_from_resource $term_background background
-set_from_resource $term_foreground foreground
-set_from_resource $term_color0     color0
-set_from_resource $term_color1     color1
-set_from_resource $term_color2     color2
-set_from_resource $term_color3     color3
-set_from_resource $term_color4     color4
-set_from_resource $term_color5     color5
-set_from_resource $term_color6     color6
-set_from_resource $term_color7     color7
-set_from_resource $term_color8     color8
-set_from_resource $term_color9     color9
-set_from_resource $term_color10    color10
-set_from_resource $term_color11    color11
-set_from_resource $term_color12    color12
-set_from_resource $term_color13    color13
-set_from_resource $term_color14    color14
-set_from_resource $term_color15    color15
+set $darkred     #000000
+# Use custom colors for black
+set $black       #282a36
+set $darkblack   #15161d
+set $transparent #00000000
+set $darkblue    #434C5E
+set $darkred     #BF616A
+set $darkwhite   #D8DEE9
 
 # Theme colors
-# class                   border  backgr. text    indic.   child_border
-  client.focused          #556064 #556064 #80FFF9 #FDF6E3
-  client.focused_inactive #2F3D44 #2F3D44 #1ABC9C #454948
-  client.unfocused        #2F3D44 #2F3D44 #1ABC9C #454948
-  client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2
-  client.placeholder      #000000 #0c0c0c #ffffff #000000
-
-  client.background       #2B2C2B
+#                       BORDER      BACKGROUND  TEXT        INDICATOR   CHILD_BORDER
+client.focused          $darkblue      $black      $darkwhite  $darkblack  $darkblack
+client.unfocused        $darkblue      $black      $white      $darkblack  $darkblack
+client.focused_inactive $darkblue      $black      $white      $darkblack  $darkblack
+client.urgent           $darkred       $darkred    $black      $darkred    $darkred
+client.background       $black
