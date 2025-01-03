@@ -4,6 +4,10 @@ case $- in
       *) return;;
 esac
 
+. ~/bin/setup-z.sh
+
+## Bash-specific config
+
 ## History management
 # don't put duplicate lines or lines starting with space in the history.
 HISTCONTROL=ignoreboth
@@ -26,52 +30,6 @@ PROMPT_COMMAND="history -a"
 shopt -s checkwinsize
 # Enable globstar
 shopt -s globstar
-
-
-
-# Make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# Enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
-
-## Completion
-# enable programmable completion features .
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
-fi
-# brew bash completion
-[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
-
-
-## Aliases
-alias xb='killall xbindkeys && xbindkeys'
-alias aria-ll='aria2c -x 15 -s 15'
-alias gxx='g++ -std=c++17 -Wall -Wextra'
-alias clipcp='xclip -sel c'
-alias clipecho='xclip -sel c -o'
-alias gdb="gdb -q"
-alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias vtime='/usr/bin/time -v'
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-# ls aliases
-alias ll='ls -alhF'
-alias la='ls -A'
-alias l='ls -CF'
-
-alias mosh-naisho="mosh -p 12301 --no-ssh-pty naisho"
 
 # some custom functions
 function venvact() {
@@ -105,26 +63,49 @@ function command_exists() {
     command -v "$1" 2>&1 >/dev/null
 }
 
+export TERM=xterm-256color
+
+
+## Aliases
+alias gdb="gdb -q"
+alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+# TODO:: set based on OS (pbpaste on mac)
+alias clipcp='xclip -sel c'
+alias clipecho='xclip -sel c -o'
+# ls aliases
+alias ll='ls -alhF'
+alias la='ls -A'
+alias l='ls -CF'
 if ! command_exists python && command_exists python3; then
     alias python=python3
 fi
 
 
 
+## Configure commands
+
 # Add ~/bin to path
-export PATH=~/bin:$PATH
-export TERM=xterm-256color
+#export PATH=~/bin:$PATH
 export EDITOR=nvim
 # for mac / bsd coreutils
 export CLICOLOR=1
 
-# load system-specific env
-[ -x ~/.env.sh ] && source ~/.env.sh
-
+# Configure various dev environments
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
 [ -f "$HOME/.nvm" ] && export NVM_DIR="$HOME/.nvm"
 
+## Completion
+# enable programmable completion features .
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+# brew bash completion
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 # if homebrew (macos)
 if [ -f "/opt/homebrew/bin/brew" ]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -135,9 +116,6 @@ fi
 if [ $ITERM_SESSION_ID ]; then
   export PROMPT_COMMAND='echo -ne "\033]0;${PWD##*/}\007"'
 fi
-
-
-. ~/bin/setup-z.sh
 
 # init starship if installed, otherwise build a custom prompt
 if command_exists starship; then
