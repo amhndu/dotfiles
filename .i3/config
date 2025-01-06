@@ -35,6 +35,8 @@ for_window [window_type="dialog"] floating enable
 for_window [window_type="menu"] floating enable
 for_window [instance="__scratchpad"] floating enable
 for_window [class="Guitarix"] floating enable
+for_window [class="pavucontrol"] floating enable
+
 
 # Wallpaper
 
@@ -72,7 +74,10 @@ bindsym $mod+Return exec konsole
 # kill focused window
 bindsym $mod+Shift+q kill
 
-bindsym $mod+d exec "rofi -modi drun,run -show drun"
+bindsym $mod+p exec "~/.config/rofi/launchers/type-2/launcher.sh"
+bindsym $super+p exec "~/.config/rofi/launchers/type-2/launcher.sh"
+bindsym $mod+shift+p exec "~/.config/rofi/launchers/type-4/launcher.sh"
+bindsym $alt+Tab exec "~/bin/rofi-window.sh"
 
 ### Movement
 # use these keys for focus, movement, and resize directions when reaching for
@@ -162,16 +167,26 @@ bindsym $super+j [class="firefox"] focus
 bindsym $super+k [class="(kitty)|(Code)"] focus
 bindsym $super+l [class="konsole"] focus
 
-bindsym $mod+1 workspace $ws1; layout tabbed
+bindsym $mod+1 workspace $ws1
+bindsym $super+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
+bindsym $super+2 workspace $ws2
 bindsym $mod+3 workspace $ws3
+bindsym $super+3 workspace $ws3
 bindsym $mod+4 workspace $ws4
+bindsym $super+4 workspace $ws4
 bindsym $mod+5 workspace $ws5
+bindsym $super+5 workspace $ws5
 bindsym $mod+6 workspace $ws6
+bindsym $super+6 workspace $ws6
 bindsym $mod+7 workspace $ws7
+bindsym $super+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
+bindsym $super+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
+bindsym $super+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
+bindsym $super+0 workspace $ws10
 
 # Move focused container to workspace
 bindsym $mod+Ctrl+1 move container to workspace $ws1
