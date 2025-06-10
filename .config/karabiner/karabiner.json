@@ -1618,6 +1618,8 @@
                                             "^co\\.zeit\\.hyper$",
                                             "^org\\.virtualbox\\.app\\.VirtualBoxVM$",
                                             "^com\\.microsoft\\.rdc\\.macos$",
+                                            "^com\\.googlecode\\.iterm2",
+                                            "^net\\.kovidgoyal\\.kitty",
                                             "^tv\\.parsec\\.www$"
                                         ],
                                         "type": "frontmost_application_unless"
@@ -1628,6 +1630,43 @@
                                     "modifiers": {
                                         "mandatory": [
                                             "control"
+                                        ],
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "t",
+                                        "modifiers": [
+                                            "command"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Ctrl+Shift+T => Cmd+T (New tab) [kitty/iTerm only]",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.googlecode\\.iterm2",
+                                            "^net\\.kovidgoyal\\.kitty"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "t",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "control",
+                                            "shift"
                                         ],
                                         "optional": [
                                             "any"
