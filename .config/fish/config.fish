@@ -42,10 +42,20 @@ if status is-interactive
     # Add ~/bin to path
     fish_add_path ~/bin
 
+
     set -x EDITOR nvim
     # for mac / bsd coreutils
     set -x CLICOLOR 1
 
     # starship prompt
     starship init fish | source
+
+
+    if test -d /usr/lib/emscripten
+        fish_add_path /usr/lib/emscripten
+    end
+
+    if test -d ~/.cargo/bin/
+        fish_add_path ~/.cargo/bin/
+    end
 end

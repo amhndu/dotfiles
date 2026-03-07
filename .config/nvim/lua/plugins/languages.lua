@@ -176,7 +176,6 @@ return {
       }
       local util = require 'lspconfig.util'
       local servers = {
-        -- clangd = {},
         gopls = {
           analyses = {
             fieldalignment = true,
@@ -525,5 +524,38 @@ return {
         },
       },
     },
+  },
+
+  -- Lisps/Scheme
+  {
+    'https://gitlab.com/HiPhish/guile.vim',
+  },
+  {
+    'Olical/conjure',
+    ft = { 'racket', 'guile', 'scheme' }, -- etc
+    lazy = true,
+    init = function()
+      -- Set configuration options here
+      -- Uncomment this to get verbose logging to help diagnose internal Conjure issues
+      -- This is VERY helpful when reporting an issue with the project
+      -- vim.g["conjure#debug"] = true
+      --
+      -- https://github.com/Olical/conjure/wiki/Quick-start:-Guile-(socket)
+      vim.g['conjure#filetype#scheme'] = 'conjure.client.guile.socket'
+      vim.g['conjure#client#guile#socket#pipename'] = '.guile-repl.socket'
+    end,
+
+    -- Optional cmp-conjure integration
+    dependencies = { 'PaterJason/cmp-conjure' },
+  },
+  {
+    'PaterJason/cmp-conjure',
+    lazy = true,
+    config = function()
+      local cmp = require 'cmp'
+      local config = cmp.get_config()
+      table.insert(config.sources, { name = 'conjure' })
+      return cmp.setup(config)
+    end,
   },
 }
