@@ -36,11 +36,17 @@ for_window [window_type="menu"] floating enable
 for_window [instance="__scratchpad"] floating enable
 for_window [class="Guitarix"] floating enable
 for_window [class="pavucontrol"] floating enable
+for_window [class="mpv"] floating enable
 
 
 # Wallpaper
 
+# static 
 exec --no-startup-id feh --bg-fill /home/amish/ext_pictures/117056362_p0.jpg
+
+# video
+#exec --no-startup-id mpv --wid=0 --loop "/home/amish/videos/study with miku.mp4"
+
 
 # Gaps
 gaps inner 3
@@ -74,8 +80,8 @@ bindsym $mod+Return exec konsole
 # kill focused window
 bindsym $mod+Shift+q kill
 
-bindsym $mod+p exec "~/.config/rofi/launchers/type-2/launcher.sh"
-bindsym $super+p exec "~/.config/rofi/launchers/type-2/launcher.sh"
+bindsym $alt+space exec "~/bin/rofi-drun.sh"
+bindsym $super+p exec "~/bin/rofi-drun.sh"
 bindsym $mod+shift+p exec "~/.config/rofi/launchers/type-4/launcher.sh"
 bindsym $alt+Tab exec "~/bin/rofi-window.sh"
 
@@ -117,6 +123,9 @@ bindsym $mod+s split h
 # split in vertical orientation
 bindsym $mod+v split v
 
+# Change current window to a tabbed container (first splits then changes the layout)
+bindsym $mod+Shift+t split toggle; layout tabbed
+
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
@@ -129,7 +138,7 @@ bindsym $mod+e layout toggle split
 bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+bindsym $mod+Ctrl+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -143,6 +152,10 @@ bindsym $mod+Shift+minus move scratchpad
 # Show the next scratchpad window or hide the focused scratchpad window.
 # If there are multiple scratchpad windows, this command cycles through them.
 bindsym $mod+minus scratchpad show
+
+
+workspace_layout tabbed
+
 
 ## Workspaces
 
