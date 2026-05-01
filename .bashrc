@@ -29,7 +29,7 @@ PROMPT_COMMAND="history -a"
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 # Enable globstar
-shopt -s globstar
+if [ $(uname) != "Darwin" ]; then shopt -s globstar; fi
 
 # some custom functions
 function venvact() {
@@ -170,4 +170,5 @@ else
 
     export PROMPT_COMMAND="__prompt_command; $PROMPT_COMMAND"
 fi
+
 
