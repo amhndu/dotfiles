@@ -1,5 +1,28 @@
 return {
-  { 'akinsho/git-conflict.nvim', config = true },
+  {
+    'sindrets/diffview.nvim',
+    opts = {
+      use_icons = true,
+      hooks = {
+        diff_buf_read = function(bufnr)
+          -- Change local options in diff buffers
+          vim.opt_local.wrap = false
+          vim.opt_local.list = false
+        end,
+      },
+    },
+    config = function(_, opts)
+      require('diffview').setup(opts)
+
+      vim.keymap.set('n', '<leader>df', function()
+        if next(require('diffview.lib').views) == nil then
+          vim.cmd 'DiffviewOpen'
+        else
+          vim.cmd 'DiffviewClose'
+        end
+      end)
+    end,
+  },
   { -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
     opts = {

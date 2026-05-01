@@ -176,7 +176,6 @@ return {
       }
       local util = require 'lspconfig.util'
       local servers = {
-        -- clangd = {},
         gopls = {
           analyses = {
             fieldalignment = true,
@@ -203,6 +202,7 @@ return {
           keys = {
             { '<leader>ch', '<cmd>ClangdSwitchSourceHeader<cr>', desc = 'Switch Source/Header (C/C++)' },
           },
+          filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda', 'hpp' }, -- updated to remove proto
           root_dir = function(fname)
             return require('lspconfig.util').root_pattern(
               'Makefile',
@@ -235,8 +235,7 @@ return {
             clangdFileStatus = true,
           },
         },
-        -- TODO: buf_ls not supported
-        -- buf_ls = {},
+        buf_ls = {},
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},
@@ -251,6 +250,9 @@ return {
             },
           },
         },
+        rust_analyzer = {},
+
+        -- add LSP plugins
       }
 
       -- Ensure the servers and tools above are installed

@@ -13,14 +13,14 @@ return {
       { '\\', ':Neotree reveal<CR>', { desc = 'NeoTree reveal' } },
     },
     opts = {
-      filesystem = {
-        window = {
-          mappings = {
-            ['\\'] = 'close_window',
-            ['l'] = 'open',
-            ['h'] = 'close_node',
-          },
+      window = {
+        mappings = {
+          ['\\'] = 'close_window',
+          ['l'] = 'open',
+          ['h'] = 'close_node',
         },
+      },
+      filesystem = {
         follow_current_file = {
           enabled = false,
           leave_dirs_open = false,
@@ -37,18 +37,18 @@ return {
             '.github',
           },
         },
-        default_component_configs = {
-          indent = {
-            with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
-            expander_collapsed = '',
-            expander_expanded = '',
-            expander_highlight = 'NeoTreeExpander',
-          },
-          git_status = {
-            symbols = {
-              unstaged = '󰄱',
-              staged = '󰱒',
-            },
+      },
+      default_component_configs = {
+        indent = {
+          with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
+          expander_collapsed = '',
+          expander_expanded = '',
+          expander_highlight = 'NeoTreeExpander',
+        },
+        git_status = {
+          symbols = {
+            unstaged = '󰄱',
+            staged = '󰱒',
           },
         },
       },
