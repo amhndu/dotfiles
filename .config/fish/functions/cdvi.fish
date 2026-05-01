@@ -1,3 +1,3 @@
 function cdvi
-    cd $argv && nvim .
+    cd $argv && nvim
 end

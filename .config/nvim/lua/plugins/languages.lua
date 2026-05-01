@@ -67,7 +67,7 @@ return {
             vim.cmd [[
               only
               vsplit
-            ]]
+              ]]
             -- goto def
             require('telescope.builtin').lsp_definitions()
           end, '[G]oto defition in [v]split')
@@ -94,7 +94,19 @@ return {
 
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
-          map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+          --  ref: https://www.reddit.com/r/neovim/comments/14gtp2c/lsp_rename_normal_mode_key_mapping/jpbvio8/
+          map('<leader>rn', function()
+            -- open the command line window by default
+            vim.api.nvim_create_autocmd({ 'CmdlineEnter' }, {
+              callback = function()
+                local key = vim.api.nvim_replace_termcodes('<C-f>', true, false, true)
+                vim.api.nvim_feedkeys(key, 'c', false)
+                vim.api.nvim_feedkeys('0', 'n', false)
+                return true
+              end,
+            })
+            vim.lsp.buf.rename()
+          end, '[R]e[n]ame')
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
@@ -250,6 +262,11 @@ return {
             },
           },
         },
+        rust_analyzer = {
+          setup = function()
+            return true
+          end,
+        },
       }
 
       -- Ensure the servers and tools above are installed
@@ -342,6 +359,7 @@ return {
         mapping = cmp.mapping.preset.insert {
           -- Select the [n]ext item
           ['<C-n>'] = cmp.mapping.select_next_item(),
+          ['<Tab>'] = cmp.mapping.select_next_item(),
           -- Select the [p]revious item
           ['<C-p>'] = cmp.mapping.select_prev_item(),
 
@@ -352,7 +370,6 @@ return {
           -- Accept the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<Tab>'] = cmp.mapping.confirm { select = true },
           ['<CR>'] = cmp.mapping.confirm { select = true },
 
           -- Manually trigger a completion from nvim-cmp.
@@ -487,12 +504,12 @@ return {
     end,
   },
 
-  -- Rust
-  {
-    'mrcjkb/rustaceanvim',
-    version = '^5', -- Recommended
-    lazy = false, -- This plugin is already lazy
-  },
+  -- -- Rust
+  -- {
+  --   'mrcjkb/rustaceanvim',
+  --   version = '^5', -- Recommended
+  --   lazy = false, -- This plugin is already lazy
+  -- },
 
   -- C++
   {
