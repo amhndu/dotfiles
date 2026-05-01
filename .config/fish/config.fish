@@ -37,15 +37,14 @@ if status is-interactive
         end
     end
 
-    ## Configure commands
-
     # Add ~/bin to path
     fish_add_path ~/bin
 
+
     set -x EDITOR nvim
-    # for mac / bsd coreutils
-    set -x CLICOLOR 1
 
     # starship prompt
     starship init fish | source
+
 end
+
