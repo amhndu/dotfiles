@@ -46,5 +46,13 @@ if status is-interactive
     # starship prompt
     starship init fish | source
 
+
+    if test -d /usr/lib/emscripten
+        fish_add_path /usr/lib/emscripten
+    end
+
+    if test -d ~/.cargo/bin/
+        fish_add_path ~/.cargo/bin/
+    end
 end
 

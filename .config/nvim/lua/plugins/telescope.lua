@@ -1,60 +1,3 @@
-local kitten_socket = 'unix:/tmp/nvimkitty'
-
-local kitty_tabs = function()
-  local kitty_ls_output = vim.fn.system { 'kitten', '@', '--to', kitten_socket, 'ls' }
-  kitty_ls_output = vim.json.decode(kitty_ls_output)
-  local results = {}
-  for _, os_window in ipairs(kitty_ls_output) do
-    for _, tab in ipairs(os_window.tabs) do
-      table.insert(results, tab)
-    end
-  end
-
-  return results
-end
-
-local kitty_focus = function(tab)
-  local args = { 'kitten', '@', '--to', kitten_socket, 'focus-tab', '--match', 'id:' .. tab.id }
-  print(vim.inspect(args))
-  vim.g.kitty_focus_args_text = vim.inspect(args)
-  vim.fn.system(args)
-end
-
-local kitty_picker = function(opts)
-  local finders = require 'telescope.finders'
-  local pickers = require 'telescope.pickers'
-  local conf = require('telescope.config').values
-  local actions = require 'telescope.actions'
-  local action_state = require 'telescope.actions.state'
-
-  opts = opts or {}
-  pickers
-    .new(opts, {
-      prompt_title = 'kitty os windows',
-      finder = finders.new_table {
-        results = kitty_tabs(),
-        entry_maker = function(entry)
-          return {
-            value = entry,
-            display = entry.title,
-            ordinal = entry.title,
-          }
-        end,
-      },
-      sorter = conf.generic_sorter(opts),
-      attach_mappings = function(prompt_bufnr, map)
-        actions.select_default:replace(function()
-          actions.close(prompt_bufnr)
-          local selection = action_state.get_selected_entry()
-          vim.g.am_selection = vim.inspect(selection)
-          kitty_focus(selection.value)
-        end)
-        return true
-      end,
-    })
-    :find()
-end
-
 return {
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
@@ -164,10 +107,6 @@ return {
       vim.keymap.set('n', '<leader>sn', function()
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
       end, { desc = '[S]earch [N]eovim files' })
-
-      vim.keymap.set('n', '<leader>kt', function()
-        kitty_picker(require('telescope.themes').get_dropdown {})
-      end, { desc = 'Search [k]itty [t]abs' })
     end,
   },
 }

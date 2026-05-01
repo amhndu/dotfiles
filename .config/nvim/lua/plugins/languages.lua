@@ -67,7 +67,7 @@ return {
             vim.cmd [[
               only
               vsplit
-            ]]
+              ]]
             -- goto def
             require('telescope.builtin').lsp_definitions()
           end, '[G]oto defition in [v]split')
@@ -94,7 +94,19 @@ return {
 
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
-          map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+          --  ref: https://www.reddit.com/r/neovim/comments/14gtp2c/lsp_rename_normal_mode_key_mapping/jpbvio8/
+          map('<leader>rn', function()
+            -- open the command line window by default
+            vim.api.nvim_create_autocmd({ 'CmdlineEnter' }, {
+              callback = function()
+                local key = vim.api.nvim_replace_termcodes('<C-f>', true, false, true)
+                vim.api.nvim_feedkeys(key, 'c', false)
+                vim.api.nvim_feedkeys('0', 'n', false)
+                return true
+              end,
+            })
+            vim.lsp.buf.rename()
+          end, '[R]e[n]ame')
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
@@ -251,8 +263,6 @@ return {
           },
         },
         rust_analyzer = {},
-
-        -- add LSP plugins
       }
 
       -- Ensure the servers and tools above are installed
@@ -345,6 +355,7 @@ return {
         mapping = cmp.mapping.preset.insert {
           -- Select the [n]ext item
           ['<C-n>'] = cmp.mapping.select_next_item(),
+          ['<Tab>'] = cmp.mapping.select_next_item(),
           -- Select the [p]revious item
           ['<C-p>'] = cmp.mapping.select_prev_item(),
 
@@ -355,7 +366,6 @@ return {
           -- Accept the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<Tab>'] = cmp.mapping.confirm { select = true },
           ['<CR>'] = cmp.mapping.confirm { select = true },
 
           -- Manually trigger a completion from nvim-cmp.
@@ -490,12 +500,12 @@ return {
     end,
   },
 
-  -- Rust
-  {
-    'mrcjkb/rustaceanvim',
-    version = '^5', -- Recommended
-    lazy = false, -- This plugin is already lazy
-  },
+  -- -- Rust
+  -- {
+  --   'mrcjkb/rustaceanvim',
+  --   version = '^5', -- Recommended
+  --   lazy = false, -- This plugin is already lazy
+  -- },
 
   -- C++
   {
@@ -527,5 +537,38 @@ return {
         },
       },
     },
+  },
+
+  -- Lisps/Scheme
+  {
+    'https://gitlab.com/HiPhish/guile.vim',
+  },
+  {
+    'Olical/conjure',
+    ft = { 'racket', 'guile', 'scheme' }, -- etc
+    lazy = true,
+    init = function()
+      -- Set configuration options here
+      -- Uncomment this to get verbose logging to help diagnose internal Conjure issues
+      -- This is VERY helpful when reporting an issue with the project
+      -- vim.g["conjure#debug"] = true
+      --
+      -- https://github.com/Olical/conjure/wiki/Quick-start:-Guile-(socket)
+      vim.g['conjure#filetype#scheme'] = 'conjure.client.guile.socket'
+      vim.g['conjure#client#guile#socket#pipename'] = '.guile-repl.socket'
+    end,
+
+    -- Optional cmp-conjure integration
+    dependencies = { 'PaterJason/cmp-conjure' },
+  },
+  {
+    'PaterJason/cmp-conjure',
+    lazy = true,
+    config = function()
+      local cmp = require 'cmp'
+      local config = cmp.get_config()
+      table.insert(config.sources, { name = 'conjure' })
+      return cmp.setup(config)
+    end,
   },
 }

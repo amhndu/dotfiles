@@ -1,8 +1,24 @@
 return {
-  'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+  {
+    'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+    pin = true,
+  },
+
+  -- 'HiPhish/rainbow-delimiters.nvim',
+
+  {
+    'okuuva/auto-save.nvim',
+    pin = true,
+    version = '^1.0.0', -- see https://devhints.io/semver, alternatively use '*' to use the latest tagged release
+    cmd = 'ASToggle', -- optional for lazy loading on command
+    event = { 'InsertLeave', 'TextChanged' }, -- optional for lazy loading on trigger events
+    opts = {
+      debounce_delay = 5000,
+    },
+  },
 
   -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false }, pin = true },
 
   { -- Autoformat
     'stevearc/conform.nvim',
@@ -19,16 +35,7 @@ return {
     },
     opts = {
       notify_on_error = false,
-      format_on_save = function(bufnr)
-        -- Disable "format_on_save lsp_fallback" for languages that don't
-        -- have a well standardized coding style. You can add additional
-        -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
-        return {
-          timeout_ms = 500,
-          lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
-        }
-      end,
+      format_on_save = false,
       formatters_by_ft = {
         lua = { 'stylua' },
         go = { 'gofumpt' },
@@ -51,6 +58,7 @@ return {
 
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
+    pin = true,
     config = function()
       -- Better Around/Inside textobjects
       --
@@ -88,6 +96,7 @@ return {
   },
   {
     'windwp/nvim-autopairs',
+    pin = true,
     event = 'InsertEnter',
     -- Optional dependency
     dependencies = { 'hrsh7th/nvim-cmp' },
