@@ -107,6 +107,12 @@ return {
             })
             vim.lsp.buf.rename()
           end, '[R]e[n]ame')
+          -- exit the command window with Esc
+          vim.api.nvim_create_autocmd({ 'CmdwinEnter' }, {
+            callback = function()
+              vim.keymap.set('n', '<esc>', ':quit<CR>', { buffer = true })
+            end,
+          })
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
@@ -149,6 +155,10 @@ return {
             })
           end
 
+          -- enable inlay hints by default
+          if vim.lsp.inlay_hint then
+            vim.lsp.inlay_hint.enable(true, { 0 })
+          end
           -- The following autocommand is used to enable inlay hints in your
           -- code, if the language server you are using supports them
           --
@@ -262,7 +272,14 @@ return {
             },
           },
         },
-        rust_analyzer = {},
+        rust_analyzer = {
+          -- on_attach = function(client, bufnr)
+          --   vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+          -- end,
+        },
+        vtsls = {
+
+        },
       }
 
       -- Ensure the servers and tools above are installed

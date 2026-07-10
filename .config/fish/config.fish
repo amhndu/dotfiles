@@ -31,12 +31,6 @@ if status is-interactive
     alias la="ls -A"
     alias l="ls -CF"
 
-    if not command_exists python
-        if command_exists python3
-            alias python="python3"
-        end
-    end
-
     # Add ~/bin to path
     fish_add_path ~/bin
 
@@ -51,8 +45,5 @@ if status is-interactive
         fish_add_path /usr/lib/emscripten
     end
 
-    if test -d ~/.cargo/bin/
-        fish_add_path ~/.cargo/bin/
-    end
 end
 

@@ -6,8 +6,11 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+vim.keymap.set('n', '<leader>v', '<C-w>v', { desc = 'New [v]ertical split' })
+vim.keymap.set('n', '<leader>o', '<C-w>o', { desc = 'Keep [o]nly current split' })
+
+
 -- Rebind <C-d> / <C-u> so cursor is always centered after movign
 vim.keymap.set('n', 'H', '<C-u>zz', { desc = 'Center cursor after moving up half-page' })
 vim.keymap.set('n', 'L', '<C-d>zz', { desc = 'Center cursor after moving down half-page' })
-
 
