@@ -4,7 +4,7 @@ case $- in
       *) return;;
 esac
 
-. ~/bin/setup-z.sh
+# . ~/bin/setup-z.sh
 
 ## Bash-specific config
 
@@ -104,12 +104,10 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-# brew bash completion
-[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+
 # if homebrew (macos)
 if [ -f "/opt/homebrew/bin/brew" ]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-    [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
+    [[ -r "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh" ]] && . "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
 fi
 
 # if iterm2: add $PWD to title
@@ -172,3 +170,4 @@ else
 fi
 
 
+source ~/.config/bash/local.sh
