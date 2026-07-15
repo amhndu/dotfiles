@@ -1,7 +1,7 @@
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
   vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
 end ---@diagnostic disable-next-line: undefined-field
@@ -41,6 +41,12 @@ require('lazy').setup({
   },
 
   checker = {
+    enabled = false,
+  },
+
+  -- No plugins here need luarocks; disabling it entirely avoids the failed
+  -- lua/luarocks install that :checkhealth otherwise flags.
+  rocks = {
     enabled = false,
   },
 })

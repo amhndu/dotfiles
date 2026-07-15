@@ -43,7 +43,7 @@ return {
     Mason will give warnings for languages that are not installed.
     You do not need to install, unless you want to use those languages!]]
 
-    local uv = vim.uv or vim.loop
+    local uv = vim.uv
     vim.health.info('System Information: ' .. vim.inspect(uv.os_uname()))
 
     check_version()

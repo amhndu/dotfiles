@@ -3,16 +3,15 @@ return {
     'neovim/nvim-lspconfig',
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
-      { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
-      'williamboman/mason-lspconfig.nvim',
+      { 'mason-org/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
+      'mason-org/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
       { 'j-hui/fidget.nvim', opts = {} },
 
-      -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
-      -- used for completion, annotations and signatures of Neovim apis
-      { 'folke/neodev.nvim', opts = {} },
+      -- `lazydev` configures Lua LSP
+      { 'folke/lazydev.nvim', ft = 'lua', opts = {} },
     },
     config = function()
       -- Brief aside: **What is LSP?**
@@ -132,7 +131,7 @@ return {
           --
           -- When you move your cursor, the highlights will be cleared (the second autocommand).
           local client = vim.lsp.get_client_by_id(event.data.client_id)
-          if client and client.server_capabilities.documentHighlightProvider then
+          if client and client:supports_method('textDocument/documentHighlight', event.buf) then
             local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
               buffer = event.buf,
@@ -155,17 +154,15 @@ return {
             })
           end
 
-          -- enable inlay hints by default
-          if vim.lsp.inlay_hint then
-            vim.lsp.inlay_hint.enable(true, { 0 })
-          end
-          -- The following autocommand is used to enable inlay hints in your
-          -- code, if the language server you are using supports them
+          -- The following code creates a keymap to toggle inlay hints in your
+          -- code, if the language server you are using supports them, and enables
+          -- them by default for this buffer.
           --
           -- This may be unwanted, since they displace some of your code
-          if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
+          if client and client:supports_method('textDocument/inlayHint', event.buf) then
+            vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })
             map('<leader>th', function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }, { bufnr = event.buf })
             end, '[T]oggle Inlay [H]ints')
           end
         end,
@@ -196,7 +193,6 @@ return {
         'Pipfile',
         '.git',
       }
-      local util = require 'lspconfig.util'
       local servers = {
         gopls = {
           analyses = {
@@ -208,7 +204,7 @@ return {
           },
         },
         basedpyright = {
-          root_dir = util.root_pattern(unpack(python_root_files)),
+          root_markers = python_root_files,
           settings = {
             basedpyright = {
               analysis = {
@@ -221,24 +217,20 @@ return {
           },
         },
         clangd = {
-          keys = {
-            { '<leader>ch', '<cmd>ClangdSwitchSourceHeader<cr>', desc = 'Switch Source/Header (C/C++)' },
-          },
           filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda', 'hpp' }, -- updated to remove proto
-          root_dir = function(fname)
-            return require('lspconfig.util').root_pattern(
-              'Makefile',
-              'configure.ac',
-              'configure.in',
-              'config.h.in',
-              'meson.build',
-              'meson_options.txt',
-              'build.ninja',
-              'CMakeLists.txt'
-            )(fname) or require('lspconfig.util').root_pattern('compile_commands.json', 'compile_flags.txt')(fname) or require('lspconfig.util').find_git_ancestor(
-              fname
-            )
-          end,
+          root_markers = {
+            'compile_commands.json',
+            'compile_flags.txt',
+            'CMakeLists.txt',
+            'Makefile',
+            'configure.ac',
+            'configure.in',
+            'config.h.in',
+            'meson.build',
+            'meson_options.txt',
+            'build.ninja',
+            '.git',
+          },
           capabilities = {
             offsetEncoding = { 'utf-16' },
           },
@@ -267,8 +259,12 @@ return {
               completion = {
                 callSnippet = 'Replace',
               },
-              -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-              -- diagnostics = { disable = { 'missing-fields' } },
+              -- Silence lua_ls false positives against Neovim's own meta:
+              --  * missing-fields: plugin @class defs (dapui, mason-lspconfig) mark
+              --    optional-with-defaults fields as required.
+              --  * param-type-mismatch: string literals passed to nvim_create_autocmd
+              --    don't narrow against Neovim 0.12's large event-name enum.
+              diagnostics = { disable = { 'missing-fields', 'param-type-mismatch' } },
             },
           },
         },
@@ -290,28 +286,35 @@ return {
       --  You can press `g?` for help in this menu.
       require('mason').setup()
 
-      -- You can add other tools here that you want Mason to install
-      -- for you, so that they are available from within Neovim.
-      local ensure_installed = vim.tbl_keys(servers or {})
+      -- clangd is intentionally excluded from auto-install: the system clangd
+      -- (/usr/bin/clangd) is used instead, so mason no longer (re)installs it on
+      -- startup in unrelated repos. Everything else the servers table declares is
+      -- installed for us (names are translated to mason packages by mason-lspconfig).
+      local ensure_installed = {}
+      for name in pairs(servers) do
+        if name ~= 'clangd' then
+          table.insert(ensure_installed, name)
+        end
+      end
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
         'gofumpt', -- format go
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
-      require('mason-lspconfig').setup {
-        handlers = {
-          function(server_name)
-            local server = servers[server_name] or {}
-            -- This handles overriding only values explicitly passed
-            -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for tsserver)
-            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            --print(vim.inspect(server_name), vim.inspect(server))
-            require('lspconfig')[server_name].setup(server)
-          end,
-        },
-      }
+      -- We enable servers ourselves below, so stop mason-lspconfig from also
+      -- auto-enabling every installed server (mason-lspconfig v2 default).
+      require('mason-lspconfig').setup { ensure_installed = {}, automatic_enable = false }
+
+      -- Broadcast the extra capabilities nvim-cmp provides to all servers, then
+      -- register each server config and enable it. This uses Neovim's built-in
+      -- LSP framework (`vim.lsp.config`/`vim.lsp.enable`, nvim 0.11+) which
+      -- superseded the old `require('lspconfig')[name].setup()` handlers.
+      vim.lsp.config('*', { capabilities = capabilities })
+      for name, server in pairs(servers) do
+        vim.lsp.config(name, server)
+        vim.lsp.enable(name)
+      end
     end,
   },
 
@@ -465,7 +468,7 @@ return {
       lint.linters_by_ft = opts.linters_by_ft
 
       function M.debounce(ms, fn)
-        local timer = vim.uv.new_timer()
+        local timer = assert(vim.uv.new_timer())
         return function(...)
           local argv = { ... }
           timer:start(ms, 0, function()
@@ -499,8 +502,9 @@ return {
         names = vim.tbl_filter(function(name)
           local linter = lint.linters[name]
           if not linter then
-            LazyVim.warn('Linter not found: ' .. name, { title = 'nvim-lint' })
+            vim.notify('Linter not found: ' .. name, vim.log.levels.WARN, { title = 'nvim-lint' })
           end
+          ---@diagnostic disable-next-line: undefined-field
           return linter and not (type(linter) == 'table' and linter.condition and not linter.condition(ctx))
         end, names)
 

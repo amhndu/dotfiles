@@ -4,7 +4,7 @@ return {
     opts = {
       use_icons = true,
       hooks = {
-        diff_buf_read = function(bufnr)
+        diff_buf_read = function(_)
           -- Change local options in diff buffers
           vim.opt_local.wrap = false
           vim.opt_local.list = false
@@ -71,7 +71,9 @@ return {
         map('n', '<leader>hs', gitsigns.stage_hunk, { desc = 'git [s]tage hunk' })
         map('n', '<leader>hr', gitsigns.reset_hunk, { desc = 'git [r]eset hunk' })
         map('n', '<leader>hS', gitsigns.stage_buffer, { desc = 'git [S]tage buffer' })
-        map('n', '<leader>hu', gitsigns.undo_stage_hunk, { desc = 'git [u]ndo stage hunk' })
+        -- `stage_hunk` toggles: on an already-staged hunk it un-stages it,
+        -- which replaces the deprecated `undo_stage_hunk`.
+        map('n', '<leader>hu', gitsigns.stage_hunk, { desc = 'git [u]nstage hunk (toggle stage)' })
         map('n', '<leader>hR', gitsigns.reset_buffer, { desc = 'git [R]eset buffer' })
         map('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'git [p]review hunk' })
         map('n', '<leader>hb', gitsigns.blame_line, { desc = 'git [b]lame line' })
@@ -81,7 +83,6 @@ return {
         end, { desc = 'git [D]iff against last commit' })
         -- Toggles
         map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = '[T]oggle git show [b]lame line' })
-        map('n', '<leader>tD', gitsigns.toggle_deleted, { desc = '[T]oggle git show [D]eleted' })
       end,
     },
   },

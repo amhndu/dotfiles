@@ -16,17 +16,27 @@ local function get_session_file()
   return session_dir .. session_name .. '.vim'
 end
 
+-- Only manage a per-directory session when nvim is started bare (no file
+-- arguments). When another tool opens nvim on a specific file (like git editing a commit message),
+-- and often deleted afterwards; saving it would clobber the directory's real
+-- session with a dangling file. In that case we neither restore nor save.
+local manage_session = false
+
 vim.api.nvim_create_autocmd('VimEnter', {
 
   callback = function()
-    if vim.fn.argc() == 0 then
-      local session_file = get_session_file()
+    if vim.fn.argc() ~= 0 then
+      return
+    end
 
-      if vim.fn.filereadable(session_file) == 1 then
-        vim.cmd 'silent! set winminwidth=1 winwidth=1 winminheight=1 winheight=1'
+    manage_session = true
 
-        vim.cmd('source ' .. vim.fn.fnameescape(session_file))
-      end
+    local session_file = get_session_file()
+
+    if vim.fn.filereadable(session_file) == 1 then
+      vim.cmd 'silent! set winminwidth=1 winwidth=1 winminheight=1 winheight=1'
+
+      vim.cmd('source ' .. vim.fn.fnameescape(session_file))
     end
   end,
 })
@@ -34,6 +44,10 @@ vim.api.nvim_create_autocmd('VimEnter', {
 vim.api.nvim_create_autocmd('VimLeavePre', {
 
   callback = function()
+    if not manage_session then
+      return
+    end
+
     local stop_file = session_dir .. '.stop_saving'
 
     if vim.fn.filereadable(stop_file) == 1 then
