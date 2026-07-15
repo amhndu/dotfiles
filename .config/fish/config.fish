@@ -18,14 +18,7 @@ if status is-interactive
     ## Aliases
     alias gdb="gdb -q"
     alias config="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
-    # Set clipboard commands based on OS
-    if test (uname) = "Darwin"
-        alias clipcp="pbcopy"
-        alias clipecho="pbpaste"
-    else if command_exists xclip
-        alias clipcp="xclip -sel c"
-        alias clipecho="xclip -sel c -o"
-    end
+    # clipcp/clipecho are defined per-OS in conf.d/{mac,linux}.fish
     # ls aliases
     alias ll="ls -alhF"
     alias la="ls -A"

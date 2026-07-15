@@ -17,3 +17,7 @@ end
 
 # for mac / bsd coreutils
 set -x CLICOLOR 1
+
+# clipboard
+alias clipcp="pbcopy"
+alias clipecho="pbpaste"

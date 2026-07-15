@@ -69,9 +69,20 @@ export TERM=xterm-256color
 ## Aliases
 alias gdb="gdb -q"
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-# TODO:: set based on OS (pbpaste on mac)
-alias clipcp='xclip -sel c'
-alias clipecho='xclip -sel c -o'
+# clipboard: OS-specific (macOS / wayland / x11)
+if [ "$(uname)" = "Darwin" ]; then
+    alias clipcp='pbcopy'
+    alias clipecho='pbpaste'
+elif [ -n "$WAYLAND_DISPLAY" ] && command_exists wl-copy; then
+    alias clipcp='wl-copy'
+    alias clipecho='wl-paste'
+elif command_exists xclip; then
+    alias clipcp='xclip -selection clipboard'
+    alias clipecho='xclip -selection clipboard -o'
+elif command_exists xsel; then
+    alias clipcp='xsel --clipboard --input'
+    alias clipecho='xsel --clipboard --output'
+fi
 # ls aliases
 alias ll='ls -alhF'
 alias la='ls -A'
