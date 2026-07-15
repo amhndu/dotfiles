@@ -71,8 +71,7 @@ return {
         map('n', '<leader>hs', gitsigns.stage_hunk, { desc = 'git [s]tage hunk' })
         map('n', '<leader>hr', gitsigns.reset_hunk, { desc = 'git [r]eset hunk' })
         map('n', '<leader>hS', gitsigns.stage_buffer, { desc = 'git [S]tage buffer' })
-        -- `stage_hunk` toggles: on an already-staged hunk it un-stages it,
-        -- which replaces the deprecated `undo_stage_hunk`.
+        -- stage_hunk toggles: on an already-staged hunk it un-stages it.
         map('n', '<leader>hu', gitsigns.stage_hunk, { desc = 'git [u]nstage hunk (toggle stage)' })
         map('n', '<leader>hR', gitsigns.reset_buffer, { desc = 'git [R]eset buffer' })
         map('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'git [p]review hunk' })

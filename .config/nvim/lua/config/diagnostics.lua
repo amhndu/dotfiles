@@ -1,7 +1,5 @@
--- Diagnostic sign glyphs. Since Neovim 0.10 the diagnostic framework owns sign
--- text; the pre-0.10 `sign_define('DiagnosticSign*')` approach no longer feeds
--- these on 0.11+. Configured once here (was previously also duplicated, with
--- conflicting icons, in neo-tree's init).
+-- Diagnostic sign glyphs. The diagnostic framework owns sign text since Neovim
+-- 0.10, so configure it here via vim.diagnostic.config rather than sign_define.
 vim.diagnostic.config {
   signs = {
     text = {
