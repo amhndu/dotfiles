@@ -77,7 +77,6 @@
         "*.ipynb": "jupyter-notebook"
     },
     "security.workspace.trust.untrustedFiles": "open",
-    "workbench.colorTheme": "One Dark Pro Darker",
     "workbench.iconTheme": "Monokai Pro (Filter Spectrum) Icons",
     "cmake.configureOnOpen": true,
     "python.formatting.provider": "yapf",
@@ -110,4 +109,12 @@
     "github.copilot.editor.enableAutoCompletions": true,
     "interactiveWindow.executeWithShiftEnter": true,
     "git.openRepositoryInParentFolders": "never",
+    "debug.allowBreakpointsEverywhere": true,
+    "workbench.list.mouseWheelScrollSensitivity": 5,
+    "jupyter.debugJustMyCode": false,
+    "debugpy.debugJustMyCode": false,
+    "jupyter.widgetScriptSources": [
+        "jsdelivr.com",
+        "unpkg.com"
+    ],
 }

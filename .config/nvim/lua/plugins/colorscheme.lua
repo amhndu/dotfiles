@@ -1,5 +1,18 @@
 return {
   {
+    'nyoom-engineering/oxocarbon.nvim',
+    priority = 1000,
+  },
+  {
+    'ellisonleao/gruvbox.nvim',
+    priority = 1000,
+    config = true,
+    opts = {
+      contrast = 'hard',
+    },
+  },
+  { 'Mofiqul/dracula.nvim' },
+  {
     'rebelot/kanagawa.nvim',
     pin = true,
     priority = 1000,
@@ -16,12 +29,12 @@ return {
     opts = {
       set_dark_mode = function()
         vim.api.nvim_set_option_value('background', 'dark', {})
-        vim.cmd.colorscheme 'kanagawa'
+        vim.cmd.colorscheme 'oxocarbon'
         vim.cmd.hi 'Comment gui=none'
       end,
       set_light_mode = function()
         vim.api.nvim_set_option_value('background', 'light', {})
-        vim.cmd.colorscheme 'catppuccin-latte'
+        vim.cmd.colorscheme 'oxocarbon'
         vim.cmd.hi 'Comment gui=none'
       end,
     },

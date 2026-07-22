@@ -1,23 +1,23 @@
 format = """
-[░▒](#a3aed2)\
+[░▒](#d65d0e)\
 $os\
 $hostname\
-[](bg:#394260 fg:#a3aed2)\
+[](bg:#d79921 fg:#d65d0e)\
 $directory\
-[](bg:#2f334d fg:#394260)\
+[](bg:#689d6a fg:#d79921)\
 $git_branch\
 $git_status\
 $git_state\
-[](fg:#2f334d bg:#212736)\
+[](fg:#689d6a bg:#458588)\
 $python\
 $battery\
-[](fg:#212736 bg:#1d2230)\
+[](fg:#458588 bg:#3c3836)\
 $time\
-[ ](fg:#1d2230)\
+[ ](fg:#3c3836)\
 \n$character"""
 
 [os]
-style = "bg:#848ca8 fg:#090c0c"
+style = "bg:#d65d0e fg:#fbf1c7"
 format = "[$symbol]($style)"
 disabled = false
 
@@ -46,22 +46,22 @@ Pop = ""
 
 [hostname]
 ssh_only = false
-style = "bg:#a3aed2 fg:#090c0c"
+style = "bg:#d65d0e fg:#fbf1c7"
 format = '[$ssh_symbol$hostname]($style)'
 
 [directory]
-style= "fg:#c8d3f5 bg:#394260"
+style= "fg:#fbf1c7 bg:#d79921"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
 
 [character]
-success_symbol = "[\\$](green)"
-error_symbol = "[\\$](red)"
-vimcmd_symbol = "[\\$](blue)"
-vimcmd_replace_one_symbol = "[\\$](bold purple)"
-vimcmd_replace_symbol = "[\\$](bold purple)"
-vimcmd_visual_symbol = "[\\$](bold yellow)"
+success_symbol = "[\\$](#98971a)"
+error_symbol = "[\\$](#cc241d)"
+vimcmd_symbol = "[\\$](#458588)"
+vimcmd_replace_one_symbol = "[\\$](bold #b16286)"
+vimcmd_replace_symbol = "[\\$](bold #b16286)"
+vimcmd_visual_symbol = "[\\$](bold #d79921)"
 
 [directory.substitutions]
 "Documents" = "󰈙 "
@@ -71,18 +71,18 @@ vimcmd_visual_symbol = "[\\$](bold yellow)"
 
 [git_branch]
 symbol = ""
-style = "fg:#a0a9cb bg:#2f334d"
+style = "fg:#fbf1c7 bg:#689d6a"
 format = '[ $symbol $branch ]($style)'
 
 [git_status]
-style = "fg:#a0a9cb bg:#2f334d"
+style = "fg:#fbf1c7 bg:#689d6a"
 format = '[($all_status$ahead_behind)]($style)'
 
 [git_state]
-style = "fg:#a0a9cb bg:#2f334d"
+style = "fg:#fbf1c7 bg:#689d6a"
 
 [python]
-style = "fg:#828bb8 bg:#212736"
+style = "fg:#fbf1c7 bg:#458588"
 symbol = "🐍"
 # disable detection through files and thus only show symbol if venv is active
 detect_extensions = []
@@ -90,10 +90,10 @@ detect_files = []
 format = "[ $symbol($virtualenv)]($style)"
 
 [[battery.display]]
-style = "fg:#828bb8 bg:#212736"
+style = "fg:#fbf1c7 bg:#458588"
 
 [time]
 disabled = false
 time_format = "%R" # Hour:Minute Format
-style = "fg:#828bb8 bg:#1d2230"
+style = "fg:#fbf1c7 bg:#3c3836"
 format = '[ $time ]($style)'

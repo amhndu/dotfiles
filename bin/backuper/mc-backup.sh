@@ -7,6 +7,9 @@ echo "[copying mc world from mc server]"
 
 rsync -az mc:/home/ubuntu/mc/ /home/amish/games/Minecraft/kc_end/mc --delete-after
 
+echo "[copying dragon-mc world from mc server]"
+rsync -az mc:/home/ubuntu/dragon-mc /home/amish/games/Minecraft/dragon-mc --delete-after
+
 echo "[starting mc backup...]"
 
 parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )

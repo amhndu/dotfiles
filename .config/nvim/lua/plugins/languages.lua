@@ -295,9 +295,11 @@ return {
           table.insert(ensure_installed, name)
         end
       end
+      -- Mason install additional
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
         'gofumpt', -- format go
+        'biome',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -408,6 +410,8 @@ return {
         -- ['_'] = { 'fallback linter' },
         -- ["*"] = { "typos" },
         ['go'] = { 'golangcilint' },
+        ['typescript'] = { "biomejs" },
+        ['javascript'] = { "biomejs" },
       },
       -- LazyVim extension to easily override linter options
       -- or add custom linters.
@@ -491,6 +495,41 @@ return {
         callback = M.debounce(100, M.lint),
       })
     end,
+  },
+
+
+  { -- Autoformat
+    'stevearc/conform.nvim',
+    lazy = false,
+    keys = {
+      {
+        '<leader>bf',
+        function()
+          require('conform').format { async = true, lsp_format = 'fallback' }
+        end,
+        mode = '',
+        desc = '[B]uffer [F]ormat',
+      },
+    },
+    opts = {
+      notify_on_error = false,
+      format_on_save = false,
+      formatters_by_ft = {
+        -- also configured in the mason ensure_installed list above
+        lua = { 'stylua' },
+        go = { 'gofumpt' },
+        python = { 'isort' },
+        javascript = { "biome" },
+        typescript = { "biome" },
+      },
+      formatters = {
+        gofumpt = {
+          env = {
+            GOFUMPT_SPLIT_LONG_LINES = 'on',
+          },
+        },
+      },
+    },
   },
 
   -- -- Rust

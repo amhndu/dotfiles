@@ -27,6 +27,10 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- allow per project settings in secure mode
+vim.opt.secure = true
+vim.opt.exrc = true
+
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
